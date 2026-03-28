@@ -1,0 +1,81 @@
+
+New Batch:232-QA
+-------------
+DataBase: BackEnd
+-------Amazon SBI Zomato
+Collection of Tables
+Table:Collection of Rows and Columns.
+
+Data:Raw Facts 
+Ramesh 
+Krishna Trainer:No Cantacts:Store then Use 
+
+CRUD: 
+Create Insert/Store Update Retrive/Select/Search Delete
+
+Information:Processed data.
+Ramesh Pasu 10/05/1995
+
+FrontEnd:GUI:EndUser or Customer or Real User 
+
+Web Application:
+Client-Server:
+-------------
+FaceBook:FrontEnd[User][Client]+BackEnd[Dev][Server][DataBase]Data/Information
+Request[Input]->Server[Validate/Process]
+Response[Output]->User[Result][+/-]
+
+Wired and WireLess:
+
+SQL:
+OracleDB: https://www.oracle.com/database/technologies/xe-prior-release-downloads.html
+MYSQL
+SQL Server
+
+DataBase: Folder: User 
+Tables: Files
+Data/Information:
+
+CRUD:Create Insert Select/Retrive Update/Modify Delete
+
+DDL:Data Defination Language
+Create: Create DataBase Tables.
+Alter:Add , Modify, Rename[Stracture of Table]
+Rename: Rename the Table
+Truncate:Delete all Records
+Drop:Permentaly delete DataBase Table
+
+DML:Data Manipulation Language
+Insert:Insert Records or Data/Information
+Select:View or Select inserted data
+Update:Ramesh->Remeash Update insert data[Where]
+Delete:Delete inserted records[All or Selected] Where
+
+DCL:Data Control Language[DBA]
+Grant:Grant Permission
+Revoke:Cancel Permission
+
+TCL:Transaction Control Language
+Commit:Permentaly Saved
+RollBack:Ctrl+Z[Step Back] undo 
+SavePoint:
+
+Create User:
+Syntax:Create user username identified by password;
+Ex: create user qt232 identified by qt232;
+O/P: User Creted
+Connect to DataBase/User:
+Connect UserName;
+Enter Password;
+
+DataBase:FB
+Create DataBase Table:Create New Account
+Syntax: create table tablename(Column1 datatype(Size),Column2 datatype(Size),.......); 
+
+DataTypes:
+----------
+Number:
+
+VarChar:String
+
+Date:

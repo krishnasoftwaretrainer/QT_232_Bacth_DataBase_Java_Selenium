@@ -1,0 +1,83 @@
+
+SQL*Plus: Release 11.2.0.2.0 Production on Sat Mar 28 12:16:38 2026
+
+Copyright (c) 1982, 2014, Oracle.  All rights reserved.
+
+SQL> connect sysdba;
+Enter password:
+ERROR:
+ORA-01005: null password given; logon denied
+
+
+SQL> connect / as sysdba;
+Connected.
+SQL> create user qt232;
+create user qt232
+                *
+ERROR at line 1:
+ORA-01938: IDENTIFIED BY must be specified for CREATE USER
+
+
+SQL> create user qt232 identified by qt232;
+
+User created.
+
+SQL> connect qt232;
+Enter password:
+ERROR:
+ORA-01045: user QT232 lacks CREATE SESSION privilege; logon denied
+
+
+Warning: You are no longer connected to ORACLE.
+SQL> connect / as sysdba;
+Connected.
+SQL> grant all privileges to qt232;
+
+Grant succeeded.
+
+SQL> connect qt232;
+Enter password:
+Connected.
+SQL> connect / as sysdba;
+Connected.
+SQL> revoke all privileges from qt232;
+
+Revoke succeeded.
+
+SQL> connect qt232;
+Enter password:
+ERROR:
+ORA-01017: invalid username/password; logon denied
+
+
+Warning: You are no longer connected to ORACLE.
+SQL> connect qt232;
+Enter password:
+ERROR:
+ORA-01045: user QT232 lacks CREATE SESSION privilege; logon denied
+
+
+SQL> grant all privileges to qt232;
+SP2-0640: Not connected
+SQL> connect / as sysdba;
+Connected.
+SQL> grant all privileges to qt232;
+
+Grant succeeded.
+
+SQL> connect qt232;
+Enter password:
+Connected.
+SQL> create table fb(firstname varchar(20),surname varchar(20),dob date,gender varchar(6));
+
+Table created.
+
+SQL> desc fb;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ FIRSTNAME                                          VARCHAR2(20)
+ SURNAME                                            VARCHAR2(20)
+ DOB                                                DATE
+ GENDER                                             VARCHAR2(6)
+
+SQL>
