@@ -81,3 +81,616 @@ SQL> desc fb;
  GENDER                                             VARCHAR2(6)
 
 SQL>
+============================
+
+SQL*Plus: Release 11.2.0.2.0 Production on Mon Mar 30 12:07:08 2026
+
+Copyright (c) 1982, 2014, Oracle.  All rights reserved.
+
+SQL> connect qt232
+Enter password:
+Connected.
+SQL> select * from tab;
+
+TNAME                          TABTYPE  CLUSTERID
+------------------------------ ------- ----------
+FB                             TABLE
+
+SQL> desc fb;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ FIRSTNAME                                          VARCHAR2(20)
+ SURNAME                                            VARCHAR2(20)
+ DOB                                                DATE
+ GENDER                                             VARCHAR2(6)
+
+SQL> alter table fb modify firstname varchar2(15);
+
+Table altered.
+
+SQL> desc fb;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ FIRSTNAME                                          VARCHAR2(15)
+ SURNAME                                            VARCHAR2(20)
+ DOB                                                DATE
+ GENDER                                             VARCHAR2(6)
+
+SQL> alter table fb modify firstname varchar(15);
+
+Table altered.
+
+SQL> desc fb;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ FIRSTNAME                                          VARCHAR2(15)
+ SURNAME                                            VARCHAR2(20)
+ DOB                                                DATE
+ GENDER                                             VARCHAR2(6)
+
+SQL> alter table fb modify firstname char(15);
+
+Table altered.
+
+SQL> desc fb;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ FIRSTNAME                                          CHAR(15)
+ SURNAME                                            VARCHAR2(20)
+ DOB                                                DATE
+ GENDER                                             VARCHAR2(6)
+
+SQL> alter table fb modify firstname varchar(15);
+
+Table altered.
+
+SQL> alter table fb add mobilenumber number(10);
+
+Table altered.
+
+SQL> desc fb;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ FIRSTNAME                                          VARCHAR2(15)
+ SURNAME                                            VARCHAR2(20)
+ DOB                                                DATE
+ GENDER                                             VARCHAR2(6)
+ MOBILENUMBER                                       NUMBER(10)
+
+SQL> alter table fb modify name char(15);
+alter table fb modify name char(15)
+                      *
+ERROR at line 1:
+ORA-00904: "NAME": invalid identifier
+
+
+SQL> alter table fb rename column firstname to name;
+
+Table altered.
+
+SQL> desc fb;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ NAME                                               VARCHAR2(15)
+ SURNAME                                            VARCHAR2(20)
+ DOB                                                DATE
+ GENDER                                             VARCHAR2(6)
+ MOBILENUMBER                                       NUMBER(10)
+
+SQL> rename fb to facebook;
+
+Table renamed.
+
+SQL> desc fb;
+ERROR:
+ORA-04043: object fb does not exist
+
+
+SQL> desc facebook;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ NAME                                               VARCHAR2(15)
+ SURNAME                                            VARCHAR2(20)
+ DOB                                                DATE
+ GENDER                                             VARCHAR2(6)
+ MOBILENUMBER                                       NUMBER(10)
+
+SQL> insert into facebook values('Krishna','N','15/mar/95','Male',1234567890);
+
+1 row created.
+
+SQL> desc facebook;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ NAME                                               VARCHAR2(15)
+ SURNAME                                            VARCHAR2(20)
+ DOB                                                DATE
+ GENDER                                             VARCHAR2(6)
+ MOBILENUMBER                                       NUMBER(10)
+
+SQL> select * from facebook;
+
+NAME            SURNAME              DOB       GENDER MOBILENUMBER
+--------------- -------------------- --------- ------ ------------
+Krishna         N                    15-MAR-95 Male     1234567890
+
+SQL> insert into facebook values('Ramesh','P','20/dec/88','Female',111111111);
+
+1 row created.
+
+SQL> select * from facebook;
+
+NAME            SURNAME              DOB       GENDER MOBILENUMBER
+--------------- -------------------- --------- ------ ------------
+Krishna         N                    15-MAR-95 Male     1234567890
+Ramesh          P                    20-DEC-88 Female    111111111
+
+SQL> insert into facebook values('Ramesh','P','Male');
+insert into facebook values('Ramesh','P','Male')
+            *
+ERROR at line 1:
+ORA-00947: not enough values
+
+
+SQL> insert into facebook(name,surname,gender) values('Lakshmi','K','Male');
+
+1 row created.
+
+SQL> select * from facebook;
+
+NAME            SURNAME              DOB       GENDER MOBILENUMBER
+--------------- -------------------- --------- ------ ------------
+Krishna         N                    15-MAR-95 Male     1234567890
+Ramesh          P                    20-DEC-88 Female    111111111
+Lakshmi         K                              Male
+
+SQL> insert into facebook values(&name,&surname,&dob,&gender,&mobilenumber);
+Enter value for name: 'Mahesh'
+Enter value for surname: 'S'
+Enter value for dob: '12/jun/85'
+Enter value for gender: 'Male'
+Enter value for mobilenumber: 12345678
+old   1: insert into facebook values(&name,&surname,&dob,&gender,&mobilenumber)
+new   1: insert into facebook values('Mahesh','S','12/jun/85','Male',12345678)
+
+1 row created.
+
+SQL> /
+Enter value for name: 'Mahesh'
+Enter value for surname: 'S'
+Enter value for dob: '12/jun/85'
+Enter value for gender: 'Male'
+Enter value for mobilenumber: 12345678
+old   1: insert into facebook values(&name,&surname,&dob,&gender,&mobilenumber)
+new   1: insert into facebook values('Mahesh','S','12/jun/85','Male',12345678)
+
+1 row created.
+
+SQL> select * from facebook;
+
+NAME            SURNAME              DOB       GENDER MOBILENUMBER
+--------------- -------------------- --------- ------ ------------
+Krishna         N                    15-MAR-95 Male     1234567890
+Ramesh          P                    20-DEC-88 Female    111111111
+Lakshmi         K                              Male
+Mahesh          S                    12-JUN-85 Male       12345678
+Mahesh          S                    12-JUN-85 Male       12345678
+
+SQL> insert into facebook values(&&name,&&surname,&&dob,&&gender,&&mobilenumber);
+Enter value for name: 'Mahesh'
+Enter value for surname: 'S'
+Enter value for dob: '12/jun/85'
+Enter value for gender: 'Male'
+Enter value for mobilenumber: 12345678
+old   1: insert into facebook values(&&name,&&surname,&&dob,&&gender,&&mobilenumber)
+new   1: insert into facebook values('Mahesh','S','12/jun/85','Male',12345678)
+
+1 row created.
+
+SQL> //
+old   1: insert into facebook values(&&name,&&surname,&&dob,&&gender,&&mobilenumber)
+new   1: insert into facebook values('Mahesh','S','12/jun/85','Male',12345678)
+
+1 row created.
+
+SQL> //
+old   1: insert into facebook values(&&name,&&surname,&&dob,&&gender,&&mobilenumber)
+new   1: insert into facebook values('Mahesh','S','12/jun/85','Male',12345678)
+
+1 row created.
+
+SQL> //
+old   1: insert into facebook values(&&name,&&surname,&&dob,&&gender,&&mobilenumber)
+new   1: insert into facebook values('Mahesh','S','12/jun/85','Male',12345678)
+
+1 row created.
+
+SQL> //
+old   1: insert into facebook values(&&name,&&surname,&&dob,&&gender,&&mobilenumber)
+new   1: insert into facebook values('Mahesh','S','12/jun/85','Male',12345678)
+
+1 row created.
+
+SQL> //
+old   1: insert into facebook values(&&name,&&surname,&&dob,&&gender,&&mobilenumber)
+new   1: insert into facebook values('Mahesh','S','12/jun/85','Male',12345678)
+
+1 row created.
+
+SQL> //
+old   1: insert into facebook values(&&name,&&surname,&&dob,&&gender,&&mobilenumber)
+new   1: insert into facebook values('Mahesh','S','12/jun/85','Male',12345678)
+
+1 row created.
+
+SQL> select * from facebook;
+
+NAME            SURNAME              DOB       GENDER MOBILENUMBER
+--------------- -------------------- --------- ------ ------------
+Krishna         N                    15-MAR-95 Male     1234567890
+Ramesh          P                    20-DEC-88 Female    111111111
+Lakshmi         K                              Male
+Mahesh          S                    12-JUN-85 Male       12345678
+Mahesh          S                    12-JUN-85 Male       12345678
+Mahesh          S                    12-JUN-85 Male       12345678
+Mahesh          S                    12-JUN-85 Male       12345678
+Mahesh          S                    12-JUN-85 Male       12345678
+Mahesh          S                    12-JUN-85 Male       12345678
+Mahesh          S                    12-JUN-85 Male       12345678
+Mahesh          S                    12-JUN-85 Male       12345678
+
+NAME            SURNAME              DOB       GENDER MOBILENUMBER
+--------------- -------------------- --------- ------ ------------
+Mahesh          S                    12-JUN-85 Male       12345678
+
+12 rows selected.
+
+SQL> //
+
+NAME            SURNAME              DOB       GENDER MOBILENUMBER
+--------------- -------------------- --------- ------ ------------
+Krishna         N                    15-MAR-95 Male     1234567890
+Ramesh          P                    20-DEC-88 Female    111111111
+Lakshmi         K                              Male
+Mahesh          S                    12-JUN-85 Male       12345678
+Mahesh          S                    12-JUN-85 Male       12345678
+Mahesh          S                    12-JUN-85 Male       12345678
+Mahesh          S                    12-JUN-85 Male       12345678
+Mahesh          S                    12-JUN-85 Male       12345678
+Mahesh          S                    12-JUN-85 Male       12345678
+Mahesh          S                    12-JUN-85 Male       12345678
+Mahesh          S                    12-JUN-85 Male       12345678
+
+NAME            SURNAME              DOB       GENDER MOBILENUMBER
+--------------- -------------------- --------- ------ ------------
+Mahesh          S                    12-JUN-85 Male       12345678
+
+12 rows selected.
+
+SQL> //
+
+NAME            SURNAME              DOB       GENDER MOBILENUMBER
+--------------- -------------------- --------- ------ ------------
+Krishna         N                    15-MAR-95 Male     1234567890
+Ramesh          P                    20-DEC-88 Female    111111111
+Lakshmi         K                              Male
+Mahesh          S                    12-JUN-85 Male       12345678
+Mahesh          S                    12-JUN-85 Male       12345678
+Mahesh          S                    12-JUN-85 Male       12345678
+Mahesh          S                    12-JUN-85 Male       12345678
+Mahesh          S                    12-JUN-85 Male       12345678
+Mahesh          S                    12-JUN-85 Male       12345678
+Mahesh          S                    12-JUN-85 Male       12345678
+Mahesh          S                    12-JUN-85 Male       12345678
+
+NAME            SURNAME              DOB       GENDER MOBILENUMBER
+--------------- -------------------- --------- ------ ------------
+Mahesh          S                    12-JUN-85 Male       12345678
+
+12 rows selected.
+
+SQL> show pagesize;
+pagesize 14
+SQL> set pagesize 20;
+SQL> select * from facebook;
+
+NAME            SURNAME              DOB       GENDER MOBILENUMBER
+--------------- -------------------- --------- ------ ------------
+Krishna         N                    15-MAR-95 Male     1234567890
+Ramesh          P                    20-DEC-88 Female    111111111
+Lakshmi         K                              Male
+Mahesh          S                    12-JUN-85 Male       12345678
+Mahesh          S                    12-JUN-85 Male       12345678
+Mahesh          S                    12-JUN-85 Male       12345678
+Mahesh          S                    12-JUN-85 Male       12345678
+Mahesh          S                    12-JUN-85 Male       12345678
+Mahesh          S                    12-JUN-85 Male       12345678
+Mahesh          S                    12-JUN-85 Male       12345678
+Mahesh          S                    12-JUN-85 Male       12345678
+Mahesh          S                    12-JUN-85 Male       12345678
+
+12 rows selected.
+
+SQL> select name,dob,gender from facebook;
+
+NAME            DOB       GENDER
+--------------- --------- ------
+Krishna         15-MAR-95 Male
+Ramesh          20-DEC-88 Female
+Lakshmi                   Male
+Mahesh          12-JUN-85 Male
+Mahesh          12-JUN-85 Male
+Mahesh          12-JUN-85 Male
+Mahesh          12-JUN-85 Male
+Mahesh          12-JUN-85 Male
+Mahesh          12-JUN-85 Male
+Mahesh          12-JUN-85 Male
+Mahesh          12-JUN-85 Male
+Mahesh          12-JUN-85 Male
+
+12 rows selected.
+
+SQL> select name,dob,gender from facebook where gender='female;
+ERROR:
+ORA-01756: quoted string not properly terminated
+
+
+SQL> select name,dob,gender from facebook where gender='female';
+
+no rows selected
+
+SQL> select name,dob,gender from facebook where gender='Female';
+
+NAME            DOB       GENDER
+--------------- --------- ------
+Ramesh          20-DEC-88 Female
+
+SQL> SEleCT name,dob,gender from facebook where gender='Female';
+
+NAME            DOB       GENDER
+--------------- --------- ------
+Ramesh          20-DEC-88 Female
+
+SQL> SEleCT * from facebook where gender='Female';
+
+NAME            SURNAME              DOB       GENDER MOBILENUMBER
+--------------- -------------------- --------- ------ ------------
+Ramesh          P                    20-DEC-88 Female    111111111
+
+SQL> commit;
+
+Commit complete.
+
+SQL> SEleCT * from facebook;
+
+NAME            SURNAME              DOB       GENDER MOBILENUMBER
+--------------- -------------------- --------- ------ ------------
+Krishna         N                    15-MAR-95 Male     1234567890
+Ramesh          P                    20-DEC-88 Female    111111111
+Lakshmi         K                              Male
+Mahesh          S                    12-JUN-85 Male       12345678
+Mahesh          S                    12-JUN-85 Male       12345678
+Mahesh          S                    12-JUN-85 Male       12345678
+Mahesh          S                    12-JUN-85 Male       12345678
+Mahesh          S                    12-JUN-85 Male       12345678
+Mahesh          S                    12-JUN-85 Male       12345678
+Mahesh          S                    12-JUN-85 Male       12345678
+Mahesh          S                    12-JUN-85 Male       12345678
+Mahesh          S                    12-JUN-85 Male       12345678
+
+12 rows selected.
+
+SQL> update facebook set gender='Female';
+
+12 rows updated.
+
+SQL> SEleCT * from facebook;
+
+NAME            SURNAME              DOB       GENDER MOBILENUMBER
+--------------- -------------------- --------- ------ ------------
+Krishna         N                    15-MAR-95 Female   1234567890
+Ramesh          P                    20-DEC-88 Female    111111111
+Lakshmi         K                              Female
+Mahesh          S                    12-JUN-85 Female     12345678
+Mahesh          S                    12-JUN-85 Female     12345678
+Mahesh          S                    12-JUN-85 Female     12345678
+Mahesh          S                    12-JUN-85 Female     12345678
+Mahesh          S                    12-JUN-85 Female     12345678
+Mahesh          S                    12-JUN-85 Female     12345678
+Mahesh          S                    12-JUN-85 Female     12345678
+Mahesh          S                    12-JUN-85 Female     12345678
+Mahesh          S                    12-JUN-85 Female     12345678
+
+12 rows selected.
+
+SQL> rollback;
+
+Rollback complete.
+
+SQL> SEleCT * from facebook;
+
+NAME            SURNAME              DOB       GENDER MOBILENUMBER
+--------------- -------------------- --------- ------ ------------
+Krishna         N                    15-MAR-95 Male     1234567890
+Ramesh          P                    20-DEC-88 Female    111111111
+Lakshmi         K                              Male
+Mahesh          S                    12-JUN-85 Male       12345678
+Mahesh          S                    12-JUN-85 Male       12345678
+Mahesh          S                    12-JUN-85 Male       12345678
+Mahesh          S                    12-JUN-85 Male       12345678
+Mahesh          S                    12-JUN-85 Male       12345678
+Mahesh          S                    12-JUN-85 Male       12345678
+Mahesh          S                    12-JUN-85 Male       12345678
+Mahesh          S                    12-JUN-85 Male       12345678
+Mahesh          S                    12-JUN-85 Male       12345678
+
+12 rows selected.
+
+SQL> update facebook set gender='Female' where surname='K';
+
+1 row updated.
+
+SQL> SEleCT * from facebook;
+
+NAME            SURNAME              DOB       GENDER MOBILENUMBER
+--------------- -------------------- --------- ------ ------------
+Krishna         N                    15-MAR-95 Male     1234567890
+Ramesh          P                    20-DEC-88 Female    111111111
+Lakshmi         K                              Female
+Mahesh          S                    12-JUN-85 Male       12345678
+Mahesh          S                    12-JUN-85 Male       12345678
+Mahesh          S                    12-JUN-85 Male       12345678
+Mahesh          S                    12-JUN-85 Male       12345678
+Mahesh          S                    12-JUN-85 Male       12345678
+Mahesh          S                    12-JUN-85 Male       12345678
+Mahesh          S                    12-JUN-85 Male       12345678
+Mahesh          S                    12-JUN-85 Male       12345678
+Mahesh          S                    12-JUN-85 Male       12345678
+
+12 rows selected.
+
+SQL> update facebook set dob='11\feb\99' and mobilenumber=22222 where surname='K';
+update facebook set dob='11\feb\99' and mobilenumber=22222 where surname='K'
+                                    *
+ERROR at line 1:
+ORA-00933: SQL command not properly ended
+
+
+SQL> update facebook set dob='11\feb\99' ,mobilenumber=22222 where surname='K';
+
+1 row updated.
+
+SQL> SEleCT * from facebook;
+
+NAME            SURNAME              DOB       GENDER MOBILENUMBER
+--------------- -------------------- --------- ------ ------------
+Krishna         N                    15-MAR-95 Male     1234567890
+Ramesh          P                    20-DEC-88 Female    111111111
+Lakshmi         K                    11-FEB-99 Female        22222
+Mahesh          S                    12-JUN-85 Male       12345678
+Mahesh          S                    12-JUN-85 Male       12345678
+Mahesh          S                    12-JUN-85 Male       12345678
+Mahesh          S                    12-JUN-85 Male       12345678
+Mahesh          S                    12-JUN-85 Male       12345678
+Mahesh          S                    12-JUN-85 Male       12345678
+Mahesh          S                    12-JUN-85 Male       12345678
+Mahesh          S                    12-JUN-85 Male       12345678
+Mahesh          S                    12-JUN-85 Male       12345678
+
+12 rows selected.
+
+SQL> commit;
+
+Commit complete.
+
+SQL> delete facebook;
+
+12 rows deleted.
+
+SQL> SEleCT * from facebook;
+
+no rows selected
+
+SQL> rollback;
+
+Rollback complete.
+
+SQL> SEleCT * from facebook;
+
+NAME            SURNAME              DOB       GENDER MOBILENUMBER
+--------------- -------------------- --------- ------ ------------
+Krishna         N                    15-MAR-95 Male     1234567890
+Ramesh          P                    20-DEC-88 Female    111111111
+Lakshmi         K                    11-FEB-99 Female        22222
+Mahesh          S                    12-JUN-85 Male       12345678
+Mahesh          S                    12-JUN-85 Male       12345678
+Mahesh          S                    12-JUN-85 Male       12345678
+Mahesh          S                    12-JUN-85 Male       12345678
+Mahesh          S                    12-JUN-85 Male       12345678
+Mahesh          S                    12-JUN-85 Male       12345678
+Mahesh          S                    12-JUN-85 Male       12345678
+Mahesh          S                    12-JUN-85 Male       12345678
+Mahesh          S                    12-JUN-85 Male       12345678
+
+12 rows selected.
+
+SQL> update facebook set surname='P' where name='Mahesh';
+
+9 rows updated.
+
+SQL> SEleCT * from facebook;
+
+NAME            SURNAME              DOB       GENDER MOBILENUMBER
+--------------- -------------------- --------- ------ ------------
+Krishna         N                    15-MAR-95 Male     1234567890
+Ramesh          P                    20-DEC-88 Female    111111111
+Lakshmi         K                    11-FEB-99 Female        22222
+Mahesh          P                    12-JUN-85 Male       12345678
+Mahesh          P                    12-JUN-85 Male       12345678
+Mahesh          P                    12-JUN-85 Male       12345678
+Mahesh          P                    12-JUN-85 Male       12345678
+Mahesh          P                    12-JUN-85 Male       12345678
+Mahesh          P                    12-JUN-85 Male       12345678
+Mahesh          P                    12-JUN-85 Male       12345678
+Mahesh          P                    12-JUN-85 Male       12345678
+Mahesh          P                    12-JUN-85 Male       12345678
+
+12 rows selected.
+
+SQL> delete facebook where surname='T';
+
+0 rows deleted.
+
+SQL> delete facebook where surname='P';
+
+10 rows deleted.
+
+SQL> rollback;
+
+Rollback complete.
+
+SQL> SEleCT * from facebook;
+
+NAME            SURNAME              DOB       GENDER MOBILENUMBER
+--------------- -------------------- --------- ------ ------------
+Krishna         N                    15-MAR-95 Male     1234567890
+Ramesh          P                    20-DEC-88 Female    111111111
+Lakshmi         K                    11-FEB-99 Female        22222
+Mahesh          S                    12-JUN-85 Male       12345678
+Mahesh          S                    12-JUN-85 Male       12345678
+Mahesh          S                    12-JUN-85 Male       12345678
+Mahesh          S                    12-JUN-85 Male       12345678
+Mahesh          S                    12-JUN-85 Male       12345678
+Mahesh          S                    12-JUN-85 Male       12345678
+Mahesh          S                    12-JUN-85 Male       12345678
+Mahesh          S                    12-JUN-85 Male       12345678
+Mahesh          S                    12-JUN-85 Male       12345678
+
+12 rows selected.
+
+SQL> delete facebook where surname='S'
+  2  ;
+
+9 rows deleted.
+
+SQL> SEleCT * from facebook;
+
+NAME            SURNAME              DOB       GENDER MOBILENUMBER
+--------------- -------------------- --------- ------ ------------
+Krishna         N                    15-MAR-95 Male     1234567890
+Ramesh          P                    20-DEC-88 Female    111111111
+Lakshmi         K                    11-FEB-99 Female        22222
+
+SQL> update facebook set gender='Male' where surname='P';
+
+1 row updated.
+
+SQL> SEleCT * from facebook;
+
+NAME            SURNAME              DOB       GENDER MOBILENUMBER
+--------------- -------------------- --------- ------ ------------
+Krishna         N                    15-MAR-95 Male     1234567890
+Ramesh          P                    20-DEC-88 Male      111111111
+Lakshmi         K                    11-FEB-99 Female        22222
+
+SQL>

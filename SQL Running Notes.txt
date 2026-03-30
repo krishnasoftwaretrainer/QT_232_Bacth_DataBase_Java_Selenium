@@ -75,7 +75,15 @@ Syntax: create table tablename(Column1 datatype(Size),Column2 datatype(Size),...
 DataTypes:
 ----------
 Number:
+			100bytes->85bytes->93bytes
+Char:String[50bytes]->Krishna[7bytes]
+VarChar:String:[50bytes]->Krishna[7bytes] 2k
+VarChar2:String:4k
 
-VarChar:String
+Date: DD/MM/YY: 30/mar/26
 
-Date:
+Insert[4Types]:insert into tablename values(value1,'value2','DD/MM/YY');
+
+Truncate
+Drop
+Delete
