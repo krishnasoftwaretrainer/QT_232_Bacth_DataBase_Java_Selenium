@@ -36,11 +36,12 @@ DataBase: Folder: User
 Tables: Files
 Data/Information:
 
+-------
 CRUD:Create Insert Select/Retrive Update/Modify Delete
 
 DDL:Data Defination Language
 Create: Create DataBase Tables.
-Alter:Add , Modify, Rename[Stracture of Table]
+Alter:Add,Modify,Rename[Stracture of Table]
 Rename: Rename the Table
 Truncate:Delete all Records
 Drop:Permentaly delete DataBase Table
@@ -84,6 +85,9 @@ Date: DD/MM/YY: 30/mar/26
 
 Insert[4Types]:insert into tablename values(value1,'value2','DD/MM/YY');
 
-Truncate
-Drop
-Delete
+Truncate:All records[No Where condition]
+Drop:All records with Stracture
+there is no option for RollBack.
+--------------------
+Delete:Selected records or all with where condition, have the option is RollBack
+

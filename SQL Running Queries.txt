@@ -694,3 +694,501 @@ Ramesh          P                    20-DEC-88 Male      111111111
 Lakshmi         K                    11-FEB-99 Female        22222
 
 SQL>
+==================================
+
+SQL*Plus: Release 11.2.0.2.0 Production on Tue Mar 31 12:06:48 2026
+
+Copyright (c) 1982, 2014, Oracle.  All rights reserved.
+
+SQL> connect qt232
+Enter password:
+Connected.
+SQL> select * from tab;
+
+TNAME                          TABTYPE  CLUSTERID
+------------------------------ ------- ----------
+FACEBOOK                       TABLE
+
+SQL> create table fb1 as select * from facebook;
+
+Table created.
+
+SQL> select * from tab;
+
+TNAME                          TABTYPE  CLUSTERID
+------------------------------ ------- ----------
+FACEBOOK                       TABLE
+FB1                            TABLE
+
+SQL> create table fb2 as select * from facebook;
+
+Table created.
+
+SQL> create table fb3 as select * from facebook;
+
+Table created.
+
+SQL> select * from tab;
+
+TNAME                          TABTYPE  CLUSTERID
+------------------------------ ------- ----------
+FACEBOOK                       TABLE
+FB1                            TABLE
+FB2                            TABLE
+FB3                            TABLE
+
+SQL> select * from fb3;
+
+NAME            SURNAME              DOB       GENDER MOBILENUMBER
+--------------- -------------------- --------- ------ ------------
+Krishna         N                    15-MAR-95 Male     1234567890
+Ramesh          P                    20-DEC-88 Male      111111111
+Lakshmi         K                    11-FEB-99 Female        22222
+
+SQL> delete fb3;
+
+3 rows deleted.
+
+SQL> select * from fb3;
+
+no rows selected
+
+SQL> rollback;
+
+Rollback complete.
+
+SQL> select * from fb3;
+
+NAME            SURNAME              DOB       GENDER MOBILENUMBER
+--------------- -------------------- --------- ------ ------------
+Krishna         N                    15-MAR-95 Male     1234567890
+Ramesh          P                    20-DEC-88 Male      111111111
+Lakshmi         K                    11-FEB-99 Female        22222
+
+SQL> delete fb3 where surname='P';
+
+1 row deleted.
+
+SQL> select * from fb3;
+
+NAME            SURNAME              DOB       GENDER MOBILENUMBER
+--------------- -------------------- --------- ------ ------------
+Krishna         N                    15-MAR-95 Male     1234567890
+Lakshmi         K                    11-FEB-99 Female        22222
+
+SQL> rollback;
+
+Rollback complete.
+
+SQL> select * from fb3;
+
+NAME            SURNAME              DOB       GENDER MOBILENUMBER
+--------------- -------------------- --------- ------ ------------
+Krishna         N                    15-MAR-95 Male     1234567890
+Ramesh          P                    20-DEC-88 Male      111111111
+Lakshmi         K                    11-FEB-99 Female        22222
+
+SQL> select * from fb2;
+
+NAME            SURNAME              DOB       GENDER MOBILENUMBER
+--------------- -------------------- --------- ------ ------------
+Krishna         N                    15-MAR-95 Male     1234567890
+Ramesh          P                    20-DEC-88 Male      111111111
+Lakshmi         K                    11-FEB-99 Female        22222
+
+SQL> truncate fb2;
+truncate fb2
+           *
+ERROR at line 1:
+ORA-03290: Invalid truncate command - missing CLUSTER or TABLE keyword
+
+
+SQL> truncate table fb2;
+
+Table truncated.
+
+SQL> select * from fb2;
+
+no rows selected
+
+SQL> rollback;
+
+Rollback complete.
+
+SQL> select * from fb2;
+
+no rows selected
+
+SQL> desc fb2;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ NAME                                               VARCHAR2(15)
+ SURNAME                                            VARCHAR2(20)
+ DOB                                                DATE
+ GENDER                                             VARCHAR2(6)
+ MOBILENUMBER                                       NUMBER(10)
+
+SQL> select * from fb2;
+
+no rows selected
+
+SQL> select * from fb21;
+select * from fb21
+              *
+ERROR at line 1:
+ORA-00942: table or view does not exist
+
+
+SQL> select * from fb1;
+
+NAME            SURNAME              DOB       GENDER MOBILENUMBER
+--------------- -------------------- --------- ------ ------------
+Krishna         N                    15-MAR-95 Male     1234567890
+Ramesh          P                    20-DEC-88 Male      111111111
+Lakshmi         K                    11-FEB-99 Female        22222
+
+SQL> drop table fb1;
+
+Table dropped.
+
+SQL> select * from fb1;
+select * from fb1
+              *
+ERROR at line 1:
+ORA-00942: table or view does not exist
+
+
+SQL> desc fb1;
+ERROR:
+ORA-04043: object fb1 does not exist
+
+
+SQL> rollback;
+
+Rollback complete.
+
+SQL> select * from fb1;
+select * from fb1
+              *
+ERROR at line 1:
+ORA-00942: table or view does not exist
+
+
+SQL> desc fb1;
+ERROR:
+ORA-04043: object fb1 does not exist
+
+
+SQL> select * from fb2;
+
+no rows selected
+
+SQL> desc fb2;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ NAME                                               VARCHAR2(15)
+ SURNAME                                            VARCHAR2(20)
+ DOB                                                DATE
+ GENDER                                             VARCHAR2(6)
+ MOBILENUMBER                                       NUMBER(10)
+
+SQL> select * from fb2;
+
+no rows selected
+
+SQL> insert into fb2 values('dds','df','10/jun/25','M',12545);
+
+1 row created.
+
+SQL> select * from fb2;
+
+NAME            SURNAME              DOB       GENDER MOBILENUMBER
+--------------- -------------------- --------- ------ ------------
+dds             df                   10-JUN-25 M             12545
+
+SQL> insert into fb2 values('xadf','zzz','10/aug/25','M',55555);
+
+1 row created.
+
+SQL> select * from fb2;
+
+NAME            SURNAME              DOB       GENDER MOBILENUMBER
+--------------- -------------------- --------- ------ ------------
+dds             df                   10-JUN-25 M             12545
+xadf            zzz                  10-AUG-25 M             55555
+
+SQL> select * from tab;
+
+TNAME                          TABTYPE  CLUSTERID
+------------------------------ ------- ----------
+FACEBOOK                       TABLE
+FB2                            TABLE
+FB3                            TABLE
+
+SQL> create table fb1 as select * from facebook;
+
+Table created.
+
+SQL> select * from tab;
+
+TNAME                          TABTYPE  CLUSTERID
+------------------------------ ------- ----------
+FACEBOOK                       TABLE
+FB1                            TABLE
+FB2                            TABLE
+FB3                            TABLE
+
+SQL> commit;
+
+Commit complete.
+
+SQL> select * from fb2;
+
+NAME            SURNAME              DOB       GENDER MOBILENUMBER
+--------------- -------------------- --------- ------ ------------
+dds             df                   10-JUN-25 M             12545
+xadf            zzz                  10-AUG-25 M             55555
+
+SQL> update fb2 name='Krishna' where name='dds';
+update fb2 name='Krishna' where name='dds'
+               *
+ERROR at line 1:
+ORA-00971: missing SET keyword
+
+
+SQL> update fb2 set name='Krishna' where name='dds';
+
+1 row updated.
+
+SQL> select * from fb2;
+
+NAME            SURNAME              DOB       GENDER MOBILENUMBER
+--------------- -------------------- --------- ------ ------------
+Krishna         df                   10-JUN-25 M             12545
+xadf            zzz                  10-AUG-25 M             55555
+
+SQL> commit;
+
+Commit complete.
+
+SQL> update fb2 set name='Suresh' where name='xadf';
+
+1 row updated.
+
+SQL> select * from fb2;
+
+NAME            SURNAME              DOB       GENDER MOBILENUMBER
+--------------- -------------------- --------- ------ ------------
+Krishna         df                   10-JUN-25 M             12545
+Suresh          zzz                  10-AUG-25 M             55555
+
+SQL> update fb2 set surname='N' where surname='df';
+
+1 row updated.
+
+SQL> select * from fb2;
+
+NAME            SURNAME              DOB       GENDER MOBILENUMBER
+--------------- -------------------- --------- ------ ------------
+Krishna         N                    10-JUN-25 M             12545
+Suresh          zzz                  10-AUG-25 M             55555
+
+SQL> update fb2 set surname='K' where surname='zzz';
+
+1 row updated.
+
+SQL> select * from fb2;
+
+NAME            SURNAME              DOB       GENDER MOBILENUMBER
+--------------- -------------------- --------- ------ ------------
+Krishna         N                    10-JUN-25 M             12545
+Suresh          K                    10-AUG-25 M             55555
+
+SQL> rollback;
+
+Rollback complete.
+
+SQL> select * from fb2;
+
+NAME            SURNAME              DOB       GENDER MOBILENUMBER
+--------------- -------------------- --------- ------ ------------
+Krishna         df                   10-JUN-25 M             12545
+xadf            zzz                  10-AUG-25 M             55555
+
+SQL> commit;
+
+Commit complete.
+
+SQL> update fb2 set name='Suresh' where name='xadf';
+
+1 row updated.
+
+SQL> select * from fb2;
+
+NAME            SURNAME              DOB       GENDER MOBILENUMBER
+--------------- -------------------- --------- ------ ------------
+Krishna         df                   10-JUN-25 M             12545
+Suresh          zzz                  10-AUG-25 M             55555
+
+SQL> savepoint save1;
+
+Savepoint created.
+
+SQL> update fb2 set surname='N' where surname='df';
+
+1 row updated.
+
+SQL> select * from fb2;
+
+NAME            SURNAME              DOB       GENDER MOBILENUMBER
+--------------- -------------------- --------- ------ ------------
+Krishna         N                    10-JUN-25 M             12545
+Suresh          zzz                  10-AUG-25 M             55555
+
+SQL> savepoint save2;
+
+Savepoint created.
+
+SQL> update fb2 set surname='K' where surname='zzz';
+
+1 row updated.
+
+SQL> select * from fb2;
+
+NAME            SURNAME              DOB       GENDER MOBILENUMBER
+--------------- -------------------- --------- ------ ------------
+Krishna         N                    10-JUN-25 M             12545
+Suresh          K                    10-AUG-25 M             55555
+
+SQL> savepoint save3;
+
+Savepoint created.
+
+SQL> rollback save3;
+rollback save3
+         *
+ERROR at line 1:
+ORA-02181: invalid option to ROLLBACK WORK
+
+
+SQL> rollback to save3;
+
+Rollback complete.
+
+SQL> select * from fb2;
+
+NAME            SURNAME              DOB       GENDER MOBILENUMBER
+--------------- -------------------- --------- ------ ------------
+Krishna         N                    10-JUN-25 M             12545
+Suresh          K                    10-AUG-25 M             55555
+
+SQL> rollback to save2;
+
+Rollback complete.
+
+SQL> select * from fb2;
+
+NAME            SURNAME              DOB       GENDER MOBILENUMBER
+--------------- -------------------- --------- ------ ------------
+Krishna         N                    10-JUN-25 M             12545
+Suresh          zzz                  10-AUG-25 M             55555
+
+SQL> rollback to save1;
+
+Rollback complete.
+
+SQL> select * from fb2;
+
+NAME            SURNAME              DOB       GENDER MOBILENUMBER
+--------------- -------------------- --------- ------ ------------
+Krishna         df                   10-JUN-25 M             12545
+Suresh          zzz                  10-AUG-25 M             55555
+
+SQL> commit;
+
+Commit complete.
+
+SQL> select * from fb2;
+
+NAME            SURNAME              DOB       GENDER MOBILENUMBER
+--------------- -------------------- --------- ------ ------------
+Krishna         df                   10-JUN-25 M             12545
+Suresh          zzz                  10-AUG-25 M             55555
+
+SQL> rollback;
+
+Rollback complete.
+
+SQL> select * from fb2;
+
+NAME            SURNAME              DOB       GENDER MOBILENUMBER
+--------------- -------------------- --------- ------ ------------
+Krishna         df                   10-JUN-25 M             12545
+Suresh          zzz                  10-AUG-25 M             55555
+
+SQL> create user Assignment1 identified by Assignment1;
+create user Assignment1 identified by Assignment1
+            *
+ERROR at line 1:
+ORA-01920: user name 'ASSIGNMENT1' conflicts with another user or role name
+
+
+SQL> create user Assignment5 identified by Assignment5;
+
+User created.
+
+SQL> connect Assignment5;
+Enter password:
+ERROR:
+ORA-01017: invalid username/password; logon denied
+
+
+Warning: You are no longer connected to ORACLE.
+SQL> connect Assignment5;
+Enter password:
+ERROR:
+ORA-01045: user ASSIGNMENT5 lacks CREATE SESSION privilege; logon denied
+
+
+SQL> grant all privileges to Assignment5;
+SP2-0640: Not connected
+SQL> connect / as sysdba;
+Connected.
+SQL> grant all privileges to Assignment5;
+
+Grant succeeded.
+
+SQL> connect Assignment5;
+Enter password:
+Connected.
+SQL> create table student student_id(number(10) primary key,student_name varchar(20),email varchar(30) unique,course varchar2
+  2
+SQL> create table student(student_id(number(10) primary key,student_name varchar(20),email varchar(30) unique,course varchar2(10),fees number(8),join_date date);
+create table student(student_id(number(10) primary key,student_name varchar(20),email varchar(30) unique,course varchar2(10),fees number(8),join_date date)
+                               *
+ERROR at line 1:
+ORA-00902: invalid datatype
+
+
+SQL> create table student(student_id(number(10) primary key,student_name varchar(20),email varchar(30) unique,course varchar(10),fees number(8),join_date date);
+create table student(student_id(number(10) primary key,student_name varchar(20),email varchar(30) unique,course varchar(10),fees number(8),join_date date)
+                               *
+ERROR at line 1:
+ORA-00902: invalid datatype
+
+
+SQL> create table student(student_id number(10) primary key,student_name varchar(20),email varchar(30) unique,course varchar(10),fees number(8),join_date date);
+
+Table created.
+
+SQL> desc student;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ STUDENT_ID                                NOT NULL NUMBER(10)
+ STUDENT_NAME                                       VARCHAR2(20)
+ EMAIL                                              VARCHAR2(30)
+ COURSE                                             VARCHAR2(10)
+ FEES                                               NUMBER(8)
+ JOIN_DATE                                          DATE
+
+SQL>
