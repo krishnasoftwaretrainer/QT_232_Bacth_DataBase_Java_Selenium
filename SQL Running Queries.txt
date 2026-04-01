@@ -1192,3 +1192,665 @@ SQL> desc student;
  JOIN_DATE                                          DATE
 
 SQL>
+====================
+
+SQL*Plus: Release 11.2.0.2.0 Production on Wed Apr 1 12:06:53 2026
+
+Copyright (c) 1982, 2014, Oracle.  All rights reserved.
+
+SQL> connect qt232
+Enter password:
+Connected.
+SQL> select * from tab;
+
+TNAME                          TABTYPE  CLUSTERID
+------------------------------ ------- ----------
+FACEBOOK                       TABLE
+FB1                            TABLE
+FB2                            TABLE
+FB3                            TABLE
+
+SQL> select * from facebook
+  2  ;
+
+NAME            SURNAME              DOB       GENDER MOBILENUMBER
+--------------- -------------------- --------- ------ ------------
+Krishna         N                    15-MAR-95 Male     1234567890
+Ramesh          P                    20-DEC-88 Male      111111111
+Lakshmi         K                    11-FEB-99 Female        22222
+
+SQL> select * from fb1;
+
+NAME            SURNAME              DOB       GENDER MOBILENUMBER
+--------------- -------------------- --------- ------ ------------
+Krishna         N                    15-MAR-95 Male     1234567890
+Ramesh          P                    20-DEC-88 Male      111111111
+Lakshmi         K                    11-FEB-99 Female        22222
+
+SQL> insert into fb1(name) values('ABCD');
+
+1 row created.
+
+SQL> select * from fb1;
+
+NAME            SURNAME              DOB       GENDER MOBILENUMBER
+--------------- -------------------- --------- ------ ------------
+Krishna         N                    15-MAR-95 Male     1234567890
+Ramesh          P                    20-DEC-88 Male      111111111
+Lakshmi         K                    11-FEB-99 Female        22222
+ABCD
+
+SQL> insert into fb1(name) values('ABCD');
+
+1 row created.
+
+SQL> select * from fb1;
+
+NAME            SURNAME              DOB       GENDER MOBILENUMBER
+--------------- -------------------- --------- ------ ------------
+Krishna         N                    15-MAR-95 Male     1234567890
+Ramesh          P                    20-DEC-88 Male      111111111
+Lakshmi         K                    11-FEB-99 Female        22222
+ABCD
+ABCD
+
+SQL> create table s1(sid number(5) primary key,sname varchar2(20));
+
+Table created.
+
+SQL> desc s1;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ SID                                       NOT NULL NUMBER(5)
+ SNAME                                              VARCHAR2(20)
+
+SQL> insert into s1 values(11,'Krishna');
+
+1 row created.
+
+SQL> select * from s1;
+
+       SID SNAME
+---------- --------------------
+        11 Krishna
+
+SQL> insert into s1 values(11,'Krishna');
+insert into s1 values(11,'Krishna')
+*
+ERROR at line 1:
+ORA-00001: unique constraint (QT232.SYS_C007364) violated
+
+
+SQL> insert into s1 values(12,'Krishna');
+
+1 row created.
+
+SQL> select * from s1;
+
+       SID SNAME
+---------- --------------------
+        11 Krishna
+        12 Krishna
+
+SQL> insert into s1(sname) values('dfes');
+insert into s1(sname) values('dfes')
+*
+ERROR at line 1:
+ORA-01400: cannot insert NULL into ("QT232"."S1"."SID")
+
+
+SQL> insert into s1(sid) values(13);
+
+1 row created.
+
+SQL> select * from s1;
+
+       SID SNAME
+---------- --------------------
+        11 Krishna
+        12 Krishna
+        13
+
+SQL> insert into s1(sid) values(13);
+insert into s1(sid) values(13)
+*
+ERROR at line 1:
+ORA-00001: unique constraint (QT232.SYS_C007364) violated
+
+
+SQL> create table s2(sid number(5) unique,sname varchar2(20));
+
+Table created.
+
+SQL> insert into s2 values(11,'Krishna');
+
+1 row created.
+
+SQL> select * from s2;
+
+       SID SNAME
+---------- --------------------
+        11 Krishna
+
+SQL> insert into s2 values(11,'Krishna');
+insert into s2 values(11,'Krishna')
+*
+ERROR at line 1:
+ORA-00001: unique constraint (QT232.SYS_C007365) violated
+
+
+SQL> insert into s2(sname) values('dfes');
+
+1 row created.
+
+SQL> select * from s2;
+
+       SID SNAME
+---------- --------------------
+        11 Krishna
+           dfes
+
+SQL> desc s2;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ SID                                                NUMBER(5)
+ SNAME                                              VARCHAR2(20)
+
+SQL> insert into s2(sname) values('dfes');
+
+1 row created.
+
+SQL> select * from s2;
+
+       SID SNAME
+---------- --------------------
+        11 Krishna
+           dfes
+           dfes
+
+SQL> insert into s2(sid) values(11);
+insert into s2(sid) values(11)
+*
+ERROR at line 1:
+ORA-00001: unique constraint (QT232.SYS_C007365) violated
+
+
+SQL> create table s3(sid number(5) not null,sname varchar2(20));
+
+Table created.
+
+SQL> insert into s3 values(11,'Krishna');
+
+1 row created.
+
+SQL> insert into s3 values(11,'Krishna');
+
+1 row created.
+
+SQL> select * from s3;
+
+       SID SNAME
+---------- --------------------
+        11 Krishna
+        11 Krishna
+
+SQL> insert into s3(sname) values('bfwj);
+ERROR:
+ORA-01756: quoted string not properly terminated
+
+
+SQL> insert into s3(sname) values('bfwj');
+insert into s3(sname) values('bfwj')
+*
+ERROR at line 1:
+ORA-01400: cannot insert NULL into ("QT232"."S3"."SID")
+
+
+SQL> desc s3;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ SID                                       NOT NULL NUMBER(5)
+ SNAME                                              VARCHAR2(20)
+
+SQL> create table tab1 (sid number(5),sname varchar2(20),fee number(5) default 10000);
+
+Table created.
+
+SQL> desc tab1;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ SID                                                NUMBER(5)
+ SNAME                                              VARCHAR2(20)
+ FEE                                                NUMBER(5)
+
+SQL> insert into tab1(sid,sname) values(1,'Krishna');
+
+1 row created.
+
+SQL> insert into tab1(sid,sname) values(2,'Mahesh');
+
+1 row created.
+
+SQL> insert into tab1(sid,sname) values(3,'Kiran');
+
+1 row created.
+
+SQL> select * from tab1;
+
+       SID SNAME                       FEE
+---------- -------------------- ----------
+         1 Krishna                   10000
+         2 Mahesh                    10000
+         3 Kiran                     10000
+
+SQL> insert into tab1(sid,sname,fee) values(3,'Kiran',9000);
+
+1 row created.
+
+SQL> select * from tab1;
+
+       SID SNAME                       FEE
+---------- -------------------- ----------
+         1 Krishna                   10000
+         2 Mahesh                    10000
+         3 Kiran                     10000
+         3 Kiran                      9000
+
+SQL> create table tab2 (sid number(5),sname varchar2(20),fee number(5) check(fee>9000));
+
+Table created.
+
+SQL> desc tab2;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ SID                                                NUMBER(5)
+ SNAME                                              VARCHAR2(20)
+ FEE                                                NUMBER(5)
+
+SQL> insert into tab2(sid,sname,fee) values(3,'Kiran',8000);
+insert into tab2(sid,sname,fee) values(3,'Kiran',8000)
+*
+ERROR at line 1:
+ORA-02290: check constraint (QT232.SYS_C007367) violated
+
+
+SQL> insert into tab2(sid,sname,fee) values(3,'Kiran',9500);
+
+1 row created.
+
+SQL> select * from tab2;
+
+       SID SNAME                       FEE
+---------- -------------------- ----------
+         3 Kiran                      9500
+
+SQL> SELECT CONSTRAINT_NAME, CONSTRAINT_TYPE FROM USER_CONSTRAINTS;
+
+CONSTRAINT_NAME                C
+------------------------------ -
+SYS_C007366                    C
+SYS_C007367                    C
+SYS_C007364                    P
+SYS_C007365                    U
+
+SQL> select * from dual;
+
+D
+-
+X
+
+SQL> select 20+30 from dual;
+
+     20+30
+----------
+        50
+
+SQL> select 20+30 as Addition from dual;
+
+  ADDITION
+----------
+        50
+
+SQL> select 20+30 as Addition from facebook;
+
+  ADDITION
+----------
+        50
+        50
+        50
+
+SQL> select * from facebook;
+
+NAME            SURNAME              DOB       GENDER MOBILENUMBER
+--------------- -------------------- --------- ------ ------------
+Krishna         N                    15-MAR-95 Male     1234567890
+Ramesh          P                    20-DEC-88 Male      111111111
+Lakshmi         K                    11-FEB-99 Female        22222
+
+SQL> select * from fb3;
+
+NAME            SURNAME              DOB       GENDER MOBILENUMBER
+--------------- -------------------- --------- ------ ------------
+Krishna         N                    15-MAR-95 Male     1234567890
+Ramesh          P                    20-DEC-88 Male      111111111
+Lakshmi         K                    11-FEB-99 Female        22222
+
+SQL> truncate table fb3;
+
+Table truncated.
+
+SQL> select * from fb3;
+
+no rows selected
+
+SQL> select 20+30 as Addition from fb3;
+
+no rows selected
+
+SQL> select 20+30 as Addition from dual;
+
+  ADDITION
+----------
+        50
+
+SQL> select 20+30+50 as Addition from dual;
+
+  ADDITION
+----------
+       100
+
+SQL> select 20-30-50 as Sub from dual;
+
+       SUB
+----------
+       -60
+
+SQL> select 55*25 as Mul from dual;
+
+       MUL
+----------
+      1375
+
+SQL> select 55*25+33-55/22 as bodmas from dual;
+
+    BODMAS
+----------
+    1405.5
+
+SQL> select 55/10 as Div from dual;
+
+       DIV
+----------
+       5.5
+
+SQL> select 55%10 as ModDiv from dual;
+select 55%10 as ModDiv from dual
+         *
+ERROR at line 1:
+ORA-00911: invalid character
+
+
+SQL> create table customers(id number(3),name varchar2(20),age number(3),address varchar2(20),salary number(6));
+
+Table created.
+
+SQL> desc customers;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ ID                                           NUMBER(3)
+ NAME                                         VARCHAR2(20)
+ AGE                                          NUMBER(3)
+ ADDRESS                                      VARCHAR2(20)
+ SALARY                                       NUMBER(6)
+
+SQL> insert into customers values(&id,&name,&age,&address,&salary);
+Enter value for id: 1
+Enter value for name: 'Ramesh'
+Enter value for age: 32
+Enter value for address: 'Ahmedabad'
+Enter value for salary: 2000
+old   1: insert into customers values(&id,&name,&age,&address,&salary)
+new   1: insert into customers values(1,'Ramesh',32,'Ahmedabad',2000)
+
+1 row created.
+
+SQL> /
+Enter value for id: 2
+Enter value for name: 'Khailan'
+Enter value for age: 25
+Enter value for address: 'Delhi'
+Enter value for salary: 1500
+old   1: insert into customers values(&id,&name,&age,&address,&salary)
+new   1: insert into customers values(2,'Khailan',25,'Delhi',1500)
+
+1 row created.
+
+SQL> /
+Enter value for id: 3
+Enter value for name: 'kaushik'
+Enter value for age: 23
+Enter value for address: 'Kota'
+Enter value for salary: 2000
+old   1: insert into customers values(&id,&name,&age,&address,&salary)
+new   1: insert into customers values(3,'kaushik',23,'Kota',2000)
+
+1 row created.
+
+SQL> /
+Enter value for id: 4
+Enter value for name: 'Chaitali'
+Enter value for age: 25
+Enter value for address: 'Mumbai'
+Enter value for salary: 6500
+old   1: insert into customers values(&id,&name,&age,&address,&salary)
+new   1: insert into customers values(4,'Chaitali',25,'Mumbai',6500)
+
+1 row created.
+
+SQL> /
+Enter value for id: 5
+Enter value for name: 'Hardik'
+Enter value for age: 27
+Enter value for address: 'MP'
+Enter value for salary: 4500
+old   1: insert into customers values(&id,&name,&age,&address,&salary)
+new   1: insert into customers values(5,'Hardik',27,'MP',4500)
+
+1 row created.
+
+SQL> /
+Enter value for id: 6
+Enter value for name: 'Komal'
+Enter value for age: 'Bhopal'
+Enter value for address:
+Enter value for salary:
+old   1: insert into customers values(&id,&name,&age,&address,&salary)
+new   1: insert into customers values(6,'Komal','Bhopal',,)
+insert into customers values(6,'Komal','Bhopal',,)
+                                                *
+ERROR at line 1:
+ORA-00936: missing expression
+
+
+SQL> /
+Enter value for id: 6
+Enter value for name: 'Komal'
+Enter value for age: 22
+Enter value for address: 'Bhopal'
+Enter value for salary: 8500
+old   1: insert into customers values(&id,&name,&age,&address,&salary)
+new   1: insert into customers values(6,'Komal',22,'Bhopal',8500)
+
+1 row created.
+
+SQL> /
+Enter value for id: 7
+Enter value for name: 'Muffy'
+Enter value for age: 24
+Enter value for address: 'Indore'
+Enter value for salary: 10000
+old   1: insert into customers values(&id,&name,&age,&address,&salary)
+new   1: insert into customers values(7,'Muffy',24,'Indore',10000)
+
+1 row created.
+
+SQL> select * from customers;
+
+        ID NAME                        AGE ADDRESS                  SALARY
+---------- -------------------- ---------- -------------------- ----------
+         1 Ramesh                       32 Ahmedabad                  2000
+         2 Khailan                      25 Delhi                      1500
+         3 kaushik                      23 Kota                       2000
+         4 Chaitali                     25 Mumbai                     6500
+         5 Hardik                       27 MP                         4500
+         6 Komal                        22 Bhopal                     8500
+         7 Muffy                        24 Indore                    10000
+
+7 rows selected.
+
+SQL> select * from customers where salary>2000;
+
+        ID NAME                        AGE ADDRESS                  SALARY
+---------- -------------------- ---------- -------------------- ----------
+         4 Chaitali                     25 Mumbai                     6500
+         5 Hardik                       27 MP                         4500
+         6 Komal                        22 Bhopal                     8500
+         7 Muffy                        24 Indore                    10000
+
+SQL> select * from customers where salary>=2000;
+
+        ID NAME                        AGE ADDRESS                  SALARY
+---------- -------------------- ---------- -------------------- ----------
+         1 Ramesh                       32 Ahmedabad                  2000
+         3 kaushik                      23 Kota                       2000
+         4 Chaitali                     25 Mumbai                     6500
+         5 Hardik                       27 MP                         4500
+         6 Komal                        22 Bhopal                     8500
+         7 Muffy                        24 Indore                    10000
+
+6 rows selected.
+
+SQL> select * from customers where salary<2000;
+
+        ID NAME                        AGE ADDRESS                  SALARY
+---------- -------------------- ---------- -------------------- ----------
+         2 Khailan                      25 Delhi                      1500
+
+SQL> select * from customers where salary<=2000;
+
+        ID NAME                        AGE ADDRESS                  SALARY
+---------- -------------------- ---------- -------------------- ----------
+         1 Ramesh                       32 Ahmedabad                  2000
+         2 Khailan                      25 Delhi                      1500
+         3 kaushik                      23 Kota                       2000
+
+SQL> select * from customers where salary==2000;
+select * from customers where salary==2000
+                                     *
+ERROR at line 1:
+ORA-00936: missing expression
+
+
+SQL> select * from customers where salary=2000;
+
+        ID NAME                        AGE ADDRESS                  SALARY
+---------- -------------------- ---------- -------------------- ----------
+         1 Ramesh                       32 Ahmedabad                  2000
+         3 kaushik                      23 Kota                       2000
+
+SQL> select * from customers where salary!=2000;
+
+        ID NAME                        AGE ADDRESS                  SALARY
+---------- -------------------- ---------- -------------------- ----------
+         2 Khailan                      25 Delhi                      1500
+         4 Chaitali                     25 Mumbai                     6500
+         5 Hardik                       27 MP                         4500
+         6 Komal                        22 Bhopal                     8500
+         7 Muffy                        24 Indore                    10000
+
+SQL> select * from customers where salary<>2000;
+
+        ID NAME                        AGE ADDRESS                  SALARY
+---------- -------------------- ---------- -------------------- ----------
+         2 Khailan                      25 Delhi                      1500
+         4 Chaitali                     25 Mumbai                     6500
+         5 Hardik                       27 MP                         4500
+         6 Komal                        22 Bhopal                     8500
+         7 Muffy                        24 Indore                    10000
+
+SQL> select * from customers where salary>=2000 and salary<=5000;
+
+        ID NAME                        AGE ADDRESS                  SALARY
+---------- -------------------- ---------- -------------------- ----------
+         1 Ramesh                       32 Ahmedabad                  2000
+         3 kaushik                      23 Kota                       2000
+         5 Hardik                       27 MP                         4500
+
+SQL> select * from customers;
+
+        ID NAME                        AGE ADDRESS                  SALARY
+---------- -------------------- ---------- -------------------- ----------
+         1 Ramesh                       32 Ahmedabad                  2000
+         2 Khailan                      25 Delhi                      1500
+         3 kaushik                      23 Kota                       2000
+         4 Chaitali                     25 Mumbai                     6500
+         5 Hardik                       27 MP                         4500
+         6 Komal                        22 Bhopal                     8500
+         7 Muffy                        24 Indore                    10000
+
+7 rows selected.
+
+SQL> select * from customers where salary>=2000 or salary<=5000;
+
+        ID NAME                        AGE ADDRESS                  SALARY
+---------- -------------------- ---------- -------------------- ----------
+         1 Ramesh                       32 Ahmedabad                  2000
+         2 Khailan                      25 Delhi                      1500
+         3 kaushik                      23 Kota                       2000
+         4 Chaitali                     25 Mumbai                     6500
+         5 Hardik                       27 MP                         4500
+         6 Komal                        22 Bhopal                     8500
+         7 Muffy                        24 Indore                    10000
+
+7 rows selected.
+
+SQL> select * from customers where salary>=2000 and salary<=5000 and salary=2000;
+
+        ID NAME                        AGE ADDRESS                  SALARY
+---------- -------------------- ---------- -------------------- ----------
+         1 Ramesh                       32 Ahmedabad                  2000
+         3 kaushik                      23 Kota                       2000
+
+SQL> select * from customers where id is not null;
+
+        ID NAME                        AGE ADDRESS                  SALARY
+---------- -------------------- ---------- -------------------- ----------
+         1 Ramesh                       32 Ahmedabad                  2000
+         2 Khailan                      25 Delhi                      1500
+         3 kaushik                      23 Kota                       2000
+         4 Chaitali                     25 Mumbai                     6500
+         5 Hardik                       27 MP                         4500
+         6 Komal                        22 Bhopal                     8500
+         7 Muffy                        24 Indore                    10000
+
+7 rows selected.
+
+SQL> select * from customers where id is null;
+
+no rows selected
+
+SQL> select * from customers where id is not null;
+
+        ID NAME                        AGE ADDRESS                  SALARY
+---------- -------------------- ---------- -------------------- ----------
+         1 Ramesh                       32 Ahmedabad                  2000
+         2 Khailan                      25 Delhi                      1500
+         3 kaushik                      23 Kota                       2000
+         4 Chaitali                     25 Mumbai                     6500
+         5 Hardik                       27 MP                         4500
+         6 Komal                        22 Bhopal                     8500
+         7 Muffy                        24 Indore                    10000
+
+7 rows selected.
+
+SQL>
