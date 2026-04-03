@@ -2634,3 +2634,885 @@ SQL> desc customers;
  SALARY                                             NUMBER(6)
 
 SQL>
+===================================
+
+SQL*Plus: Release 11.2.0.2.0 Production on Fri Apr 3 12:05:03 2026
+
+Copyright (c) 1982, 2014, Oracle.  All rights reserved.
+
+SQL> connect qt232;
+Enter password:
+Connected.
+SQL> select * from dual;
+
+D
+-
+X
+
+SQL> select 2+3+4 from dual;
+
+     2+3+4
+----------
+         9
+
+SQL> select 2+3+4 from fb;
+select 2+3+4 from fb
+                  *
+ERROR at line 1:
+ORA-00942: table or view does not exist
+
+
+SQL> select 2+3+4 from fb1;
+
+     2+3+4
+----------
+         9
+         9
+         9
+         9
+         9
+
+SQL> select * from customers;
+
+        ID NAME                        AGE ADDRESS                  SALARY
+---------- -------------------- ---------- -------------------- ----------
+         1 Ramesh                       32 Ahmedabad                  2000
+         2 Khailan                      25 Delhi                      1500
+         3 kaushik                      23 Kota                       2000
+         4 Chaitali                     55 Mumbai                     6500
+         5 Hardik                       27 MP                         4500
+         6 Komal                        22 Bhopal                     8500
+         7 Muffy                        24 Indore                    10000
+
+7 rows selected.
+
+SQL> select sum(salary) from customers;
+
+SUM(SALARY)
+-----------
+      35000
+
+SQL> select avg(salary) from customers;
+
+AVG(SALARY)
+-----------
+       5000
+
+SQL> select max(salary) from customers;
+
+MAX(SALARY)
+-----------
+      10000
+
+SQL> select min(salary) from customers;
+
+MIN(SALARY)
+-----------
+       1500
+
+SQL> select count(salary) from customers;
+
+COUNT(SALARY)
+-------------
+            7
+
+SQL> select count(*) from customers;
+
+  COUNT(*)
+----------
+         7
+
+SQL> insert into customers(id) values(8);
+
+1 row created.
+
+SQL> select * from customers;
+
+        ID NAME                        AGE ADDRESS                  SALARY
+---------- -------------------- ---------- -------------------- ----------
+         1 Ramesh                       32 Ahmedabad                  2000
+         2 Khailan                      25 Delhi                      1500
+         3 kaushik                      23 Kota                       2000
+         4 Chaitali                     55 Mumbai                     6500
+         5 Hardik                       27 MP                         4500
+         6 Komal                        22 Bhopal                     8500
+         7 Muffy                        24 Indore                    10000
+         8
+
+8 rows selected.
+
+SQL> select count(salary) from customers;
+
+COUNT(SALARY)
+-------------
+            7
+
+SQL> select count(*) from customers;
+
+  COUNT(*)
+----------
+         8
+
+SQL> select count(salary) from customers;
+
+COUNT(SALARY)
+-------------
+            7
+
+SQL> select count(id) from customers;
+
+ COUNT(ID)
+----------
+         8
+
+SQL> SELECT COUNT(DISTINCT salary) FROM customers;
+
+COUNT(DISTINCTSALARY)
+---------------------
+                    6
+
+SQL> select sysdate from dual;
+
+SYSDATE
+---------
+03-APR-26
+
+SQL> select current_time from dual;
+select current_time from dual
+       *
+ERROR at line 1:
+ORA-00904: "CURRENT_TIME": invalid identifier
+
+
+SQL> select currentdate from dual;
+select currentdate from dual
+       *
+ERROR at line 1:
+ORA-00904: "CURRENTDATE": invalid identifier
+
+
+SQL> select sysdate from dual;
+
+SYSDATE
+---------
+03-APR-26
+
+SQL> select systmestamp from dual;
+select systmestamp from dual
+       *
+ERROR at line 1:
+ORA-00904: "SYSTMESTAMP": invalid identifier
+
+
+SQL> select systimestamp from dual;
+
+SYSTIMESTAMP
+---------------------------------------------------------------------------
+03-APR-26 12.15.44.681000 PM +05:30
+
+SQL> select current_timestamp from dual;
+
+CURRENT_TIMESTAMP
+---------------------------------------------------------------------------
+03-APR-26 12.16.55.946000 PM +05:30
+
+SQL> select uppr('krishna') from dual;
+select uppr('krishna') from dual
+       *
+ERROR at line 1:
+ORA-00904: "UPPR": invalid identifier
+
+
+SQL> select upper('krishna') from dual;
+
+UPPER('
+-------
+KRISHNA
+
+SQL> select upper(name) from customers;
+
+UPPER(NAME)
+--------------------
+RAMESH
+KHAILAN
+KAUSHIK
+CHAITALI
+HARDIK
+KOMAL
+MUFFY
+
+
+8 rows selected.
+
+SQL> select id,name upper(name) from customers;
+select id,name upper(name) from customers
+                    *
+ERROR at line 1:
+ORA-00923: FROM keyword not found where expected
+
+
+SQL> select id,name, upper(name) from customers;
+
+        ID NAME                 UPPER(NAME)
+---------- -------------------- --------------------
+         1 Ramesh               RAMESH
+         2 Khailan              KHAILAN
+         3 kaushik              KAUSHIK
+         4 Chaitali             CHAITALI
+         5 Hardik               HARDIK
+         6 Komal                KOMAL
+         7 Muffy                MUFFY
+         8
+
+8 rows selected.
+
+SQL> select id,name, lower(name) from customers;
+
+        ID NAME                 LOWER(NAME)
+---------- -------------------- --------------------
+         1 Ramesh               ramesh
+         2 Khailan              khailan
+         3 kaushik              kaushik
+         4 Chaitali             chaitali
+         5 Hardik               hardik
+         6 Komal                komal
+         7 Muffy                muffy
+         8
+
+8 rows selected.
+
+SQL> select id,name, init(name) from customers;
+select id,name, init(name) from customers
+                *
+ERROR at line 1:
+ORA-00904: "INIT": invalid identifier
+
+
+SQL> select id,name, initcap(name) from customers;
+
+        ID NAME                 INITCAP(NAME)
+---------- -------------------- --------------------
+         1 Ramesh               Ramesh
+         2 Khailan              Khailan
+         3 kaushik              Kaushik
+         4 Chaitali             Chaitali
+         5 Hardik               Hardik
+         6 Komal                Komal
+         7 Muffy                Muffy
+         8
+
+8 rows selected.
+
+SQL> select initcap('abcd') from customers;
+
+INIT
+----
+Abcd
+Abcd
+Abcd
+Abcd
+Abcd
+Abcd
+Abcd
+Abcd
+
+8 rows selected.
+
+SQL> select initcap('abcd') from dual;
+
+INIT
+----
+Abcd
+
+SQL> select initcap('aBCD') from dual;
+
+INIT
+----
+Abcd
+
+SQL> select length('aBCD') from dual;
+
+LENGTH('ABCD')
+--------------
+             4
+
+SQL> select id,name, length(name) from customers;
+
+        ID NAME                 LENGTH(NAME)
+---------- -------------------- ------------
+         1 Ramesh                          6
+         2 Khailan                         7
+         3 kaushik                         7
+         4 Chaitali                        8
+         5 Hardik                          6
+         6 Komal                           5
+         7 Muffy                           5
+         8
+
+8 rows selected.
+
+SQL> SELECT REPLACE('Hello World', 'Hello', 'Hi') AS Result FROM dual;
+
+RESULT
+--------
+Hi World
+
+SQL> SELECT id,name, REPLACE (name, 'Muffy', 'Srinu') AS updated_name FROM customers;
+
+        ID NAME
+---------- --------------------
+UPDATED_NAME
+--------------------------------------------------------------------------------
+         1 Ramesh
+Ramesh
+
+         2 Khailan
+Khailan
+
+         3 kaushik
+kaushik
+
+
+        ID NAME
+---------- --------------------
+UPDATED_NAME
+--------------------------------------------------------------------------------
+         4 Chaitali
+Chaitali
+
+         5 Hardik
+Hardik
+
+         6 Komal
+Komal
+
+
+        ID NAME
+---------- --------------------
+UPDATED_NAME
+--------------------------------------------------------------------------------
+         7 Muffy
+Srinu
+
+         8
+
+
+
+8 rows selected.
+
+SQL> show linesize;
+linesize 80
+SQL> set linesize 200;
+SQL> SELECT id,name, REPLACE (name, 'Muffy', 'Srinu') AS updated_name FROM customers;
+
+        ID NAME                 UPDATED_NAME
+---------- -------------------- ----------------------------------------------------------------------------------------------------
+         1 Ramesh               Ramesh
+         2 Khailan              Khailan
+         3 kaushik              kaushik
+         4 Chaitali             Chaitali
+         5 Hardik               Hardik
+         6 Komal                Komal
+         7 Muffy                Srinu
+         8
+
+8 rows selected.
+
+SQL> set pagesize 25;
+SQL> SELECT id,name, REPLACE (name, 'Muffy', 'Srinu') AS updated_name FROM customers;
+
+        ID NAME                 UPDATED_NAME
+---------- -------------------- ----------------------------------------------------------------------------------------------------
+         1 Ramesh               Ramesh
+         2 Khailan              Khailan
+         3 kaushik              kaushik
+         4 Chaitali             Chaitali
+         5 Hardik               Hardik
+         6 Komal                Komal
+         7 Muffy                Srinu
+         8
+
+8 rows selected.
+
+SQL> SELECT id,name, REPLACE (name, 'Muffy', 'Srinu') FROM customers;
+
+        ID NAME                 REPLACE(NAME,'MUFFY','SRINU')
+---------- -------------------- ----------------------------------------------------------------------------------------------------
+         1 Ramesh               Ramesh
+         2 Khailan              Khailan
+         3 kaushik              kaushik
+         4 Chaitali             Chaitali
+         5 Hardik               Hardik
+         6 Komal                Komal
+         7 Muffy                Srinu
+         8
+
+8 rows selected.
+
+SQL> select LPAD(‘oracle’,10,’z’)
+  2  ;
+ERROR:
+ORA-01756: quoted string not properly terminated
+
+
+SQL> select LPAD('oracle',10,'z')
+  2  ;
+
+*
+ERROR at line 2:
+ORA-00923: FROM keyword not found where expected
+
+
+SQL> select LPAD('oracle',10,'z');
+select LPAD('oracle',10,'z')
+                           *
+ERROR at line 1:
+ORA-00923: FROM keyword not found where expected
+
+
+SQL> select LPAD('oracle',10,'z') from dual;
+
+LPAD('ORAC
+----------
+zzzzoracle
+
+SQL> select RPAD('oracle',10,'z') from dual;
+
+RPAD('ORAC
+----------
+oraclezzzz
+
+SQL> select RPAD('oracle',10,'zk') from dual;
+
+RPAD('ORAC
+----------
+oraclezkzk
+
+SQL> select RPAD('oracle',10,'zko') from dual;
+
+RPAD('ORAC
+----------
+oraclezkoz
+
+SQL> select RPAD('oracle',20,'zko') from dual;
+
+RPAD('ORACLE',20,'ZK
+--------------------
+oraclezkozkozkozkozk
+
+SQL> select RPAD('oracle',20,'zko') from dual;
+
+RPAD('ORACLE',20,'ZK
+--------------------
+oraclezkozkozkozkozk
+
+SQL> Select RTRIM('ZORACLEZZZ','Z') from dual;
+
+RTRIM('
+-------
+ZORACLE
+
+SQL> Select RTRIM('ZORACLEZZZ','Z') as right trim from dual;
+Select RTRIM('ZORACLEZZZ','Z') as right trim from dual
+                                        *
+ERROR at line 1:
+ORA-00923: FROM keyword not found where expected
+
+
+SQL> Select RTRIM('ZORACLEZZZ','Z') as righttrim from dual;
+
+RIGHTTR
+-------
+ZORACLE
+
+SQL> Select RTRIM('ZORACLEZZZ','Z') from dual;
+
+RTRIM('
+-------
+ZORACLE
+
+SQL> Select LTRIM('ZORACLEZZZ','Z') from dual;
+
+LTRIM('ZO
+---------
+ORACLEZZZ
+
+SQL> Select LTRIM('ZZZZORACLE','Z') from dual;
+
+LTRIM(
+------
+ORACLE
+
+SQL> Select TRIM('Z' from'ZZZZORACLE') from dual;
+
+TRIM('
+------
+ORACLE
+
+SQL> Select TRIM('Z' from 'ZZZZORACLEZZZ') from dual;
+
+TRIM('
+------
+ORACLE
+
+SQL> Select TRIM('Z' from 'ZZZZORACLEZZZKKK') from dual;
+
+TRIM('Z'FROM
+------------
+ORACLEZZZKKK
+
+SQL> SELECT INSTR('Hello World', 'W') AS position FROM dual;
+
+  POSITION
+----------
+         7
+
+SQL> SELECT INSTR('Hello World', 'd') AS position FROM dual;
+
+  POSITION
+----------
+        11
+
+SQL> SELECT INSTR('Hello World', 'World') AS position FROM dual;
+
+  POSITION
+----------
+         7
+
+SQL> SELECT SUBSTR('ORACLE', 2, 3) FROM dual;
+
+SUB
+---
+RAC
+
+SQL> SELECT SUBSTR('ORACLE', 3, 3) FROM dual;
+
+SUB
+---
+ACL
+
+SQL> SELECT SUBSTR('ORACLE',3) FROM dual;
+
+SUBS
+----
+ACLE
+
+SQL> SELECT SUBSTR('ORACLE',,3) FROM dual;
+SELECT SUBSTR('ORACLE',,3) FROM dual
+                       *
+ERROR at line 1:
+ORA-00936: missing expression
+
+
+SQL> SELECT SUBSTR('ORACLE', ,3) FROM dual;
+SELECT SUBSTR('ORACLE', ,3) FROM dual
+                        *
+ERROR at line 1:
+ORA-00936: missing expression
+
+
+SQL> SELECT SUBSTR('ORACLE',0,3) FROM dual;
+
+SUB
+---
+ORA
+
+SQL> SELECT 'Hello' || ' ' || 'World' AS concatenated_string FROM dual
+  2  ;
+
+CONCATENATE
+-----------
+Hello World
+
+SQL> SELECT 'Hello' 'World' AS concatenated_string FROM dual
+  2  ;
+SELECT 'Hello' 'World' AS concatenated_string FROM dual
+               *
+ERROR at line 1:
+ORA-00923: FROM keyword not found where expected
+
+
+SQL> SELECT 'Hello','World' AS concatenated_string FROM dual;
+
+'HELL CONCA
+----- -----
+Hello World
+
+SQL> SELECT 'Hello','World' AS concatenated_string FROM dual;
+
+'HELL CONCA
+----- -----
+Hello World
+
+SQL> select * from customers;
+
+        ID NAME                        AGE ADDRESS                  SALARY
+---------- -------------------- ---------- -------------------- ----------
+         1 Ramesh                       32 Ahmedabad                  2000
+         2 Khailan                      25 Delhi                      1500
+         3 kaushik                      23 Kota                       2000
+         4 Chaitali                     55 Mumbai                     6500
+         5 Hardik                       27 MP                         4500
+         6 Komal                        22 Bhopal                     8500
+         7 Muffy                        24 Indore                    10000
+         8
+
+8 rows selected.
+
+SQL> SELECT 'Mr.',name AS concatenated_string FROM customers;
+
+'MR CONCATENATED_STRING
+--- --------------------
+Mr. Ramesh
+Mr. Khailan
+Mr. kaushik
+Mr. Chaitali
+Mr. Hardik
+Mr. Komal
+Mr. Muffy
+Mr.
+
+8 rows selected.
+
+SQL> SELECT name, 'Mr.',name AS concatenated_string FROM customers;
+
+NAME                 'MR CONCATENATED_STRING
+-------------------- --- --------------------
+Ramesh               Mr. Ramesh
+Khailan              Mr. Khailan
+kaushik              Mr. kaushik
+Chaitali             Mr. Chaitali
+Hardik               Mr. Hardik
+Komal                Mr. Komal
+Muffy                Mr. Muffy
+                     Mr.
+
+8 rows selected.
+
+SQL> SELECT name, 'Mr.',name FROM customers;
+
+NAME                 'MR NAME
+-------------------- --- --------------------
+Ramesh               Mr. Ramesh
+Khailan              Mr. Khailan
+kaushik              Mr. kaushik
+Chaitali             Mr. Chaitali
+Hardik               Mr. Hardik
+Komal                Mr. Komal
+Muffy                Mr. Muffy
+                     Mr.
+
+8 rows selected.
+
+SQL> SELECT TRANSLATE(name, 'ae', '12') FROM customers;
+
+TRANSLATE(NAME,'AE','12')
+--------------------------------------------------------------------------------
+R1m2sh
+Kh1il1n
+k1ushik
+Ch1it1li
+H1rdik
+Kom1l
+Muffy
+
+
+8 rows selected.
+
+SQL> SELECT name, TRANSLATE(name, 'ae', '12') FROM customers;
+
+NAME                 TRANSLATE(NAME,'AE','12')
+-------------------- --------------------------------------------------------------------------------
+Ramesh               R1m2sh
+Khailan              Kh1il1n
+kaushik              k1ushik
+Chaitali             Ch1it1li
+Hardik               H1rdik
+Komal                Kom1l
+Muffy                Muffy
+
+
+8 rows selected.
+
+SQL> SELECT ASCII('ABCD') FROM dual;
+
+ASCII('ABCD')
+-------------
+           65
+
+SQL> SELECT ASCII('H') FROM dual;
+
+ASCII('H')
+----------
+        72
+
+SQL> SELECT ASCII('a') FROM dual;
+
+ASCII('A')
+----------
+        97
+
+SQL> SELECT ABS(-10) AS absolute_value FROM dual;
+
+ABSOLUTE_VALUE
+--------------
+            10
+
+SQL> SELECT ABS(-10.55) AS absolute_value FROM dual;
+
+ABSOLUTE_VALUE
+--------------
+         10.55
+
+SQL> SELECT ABS(10.55) AS absolute_value FROM dual;
+
+ABSOLUTE_VALUE
+--------------
+         10.55
+
+SQL> SELECT sqrt(25) FROM dual;
+
+  SQRT(25)
+----------
+         5
+
+SQL> SELECT mod(25,3) FROM dual;
+
+ MOD(25,3)
+----------
+         1
+
+SQL> SELECT mod(25,5) FROM dual;
+
+ MOD(25,5)
+----------
+         0
+
+SQL> SELECT powr(2,3) FROM dual;
+SELECT powr(2,3) FROM dual
+       *
+ERROR at line 1:
+ORA-00904: "POWR": invalid identifier
+
+
+SQL> SELECT power(2,3) FROM dual;
+
+POWER(2,3)
+----------
+         8
+
+SQL> SELECT power(2,4) FROM dual;
+
+POWER(2,4)
+----------
+        16
+
+SQL> SELECT power(2,6) FROM dual;
+
+POWER(2,6)
+----------
+        64
+
+SQL> Select ROUND(40.9) from dual;
+
+ROUND(40.9)
+-----------
+         41
+
+SQL> Select ROUND(40.3) from dual;
+
+ROUND(40.3)
+-----------
+         40
+
+SQL> Select ceil(40.3) from dual;
+
+CEIL(40.3)
+----------
+        41
+
+SQL> Select ceil(40.8) from dual;
+
+CEIL(40.8)
+----------
+        41
+
+SQL> Select ceil(40.0) from dual;
+
+CEIL(40.0)
+----------
+        40
+
+SQL> Select ceil(40.1) from dual;
+
+CEIL(40.1)
+----------
+        41
+
+SQL> Select floor(40.1) from dual;
+
+FLOOR(40.1)
+-----------
+         40
+
+SQL> Select floor(40.9) from dual;
+
+FLOOR(40.9)
+-----------
+         40
+
+SQL> Select ROUND(123.863,2) from dual;
+
+ROUND(123.863,2)
+----------------
+          123.86
+
+SQL> Select ROUND(123.867,2) from dual;
+
+ROUND(123.867,2)
+----------------
+          123.87
+
+SQL> Select ROUND(123.8678,3) from dual;
+
+ROUND(123.8678,3)
+-----------------
+          123.868
+
+SQL> Select ROUND(123.8673,3) from dual;
+
+ROUND(123.8673,3)
+-----------------
+          123.867
+
+SQL> Select ROUND(1234,-1) from dual;
+
+ROUND(1234,-1)
+--------------
+          1230
+
+SQL> Select ROUND(1234,-2) from dual;
+
+ROUND(1234,-2)
+--------------
+          1200
+
+SQL> Select ROUND(1234,-3) from dual;
+
+ROUND(1234,-3)
+--------------
+          1000
+
+SQL> Select ROUND(1234,-4) from dual;
+
+ROUND(1234,-4)
+--------------
+             0
+
+SQL> Select ROUND(51234,-4) from dual;
+
+ROUND(51234,-4)
+---------------
+          50000
+
+SQL>
