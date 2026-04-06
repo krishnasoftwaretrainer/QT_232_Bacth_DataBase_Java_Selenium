@@ -3514,5 +3514,591 @@ SQL> Select ROUND(51234,-4) from dual;
 ROUND(51234,-4)
 ---------------
           50000
+===============================
+
+SQL*Plus: Release 11.2.0.2.0 Production on Mon Apr 6 12:07:30 2026
+
+Copyright (c) 1982, 2014, Oracle.  All rights reserved.
+
+SQL> connect qt232
+Enter password:
+Connected.
+SQL> select sysdate from dual;
+
+SYSDATE
+---------
+06-APR-26
+
+SQL> select currentdate from dual;
+select currentdate from dual
+       *
+ERROR at line 1:
+ORA-00904: "CURRENTDATE": invalid identifier
+
+
+SQL> select current_date from dual;
+
+CURRENT_D
+---------
+06-APR-26
+
+SQL> select systimestamp from dual;
+
+SYSTIMESTAMP
+---------------------------------------------------------------------------
+06-APR-26 12.09.24.959000 PM +05:30
+
+SQL> select current_timestamp from dual;
+
+CURRENT_TIMESTAMP
+---------------------------------------------------------------------------
+06-APR-26 12.09.36.035000 PM +05:30
+
+SQL> select sysdate from dual;
+
+SYSDATE
+---------
+06-APR-26
+
+SQL> select current_date from dual;
+
+CURRENT_D
+---------
+06-APR-26
+
+SQL> Select ADD_MONTHS(SYSDATE,12) from dual;
+
+ADD_MONTH
+---------
+06-APR-27
+
+SQL> Select ADD_MONTHS(SYSDATE,2) from dual;
+
+ADD_MONTH
+---------
+06-JUN-26
+
+SQL> Select MONTHS_BETWEEN(sysdate,'06-apr-25') from dual;
+
+MONTHS_BETWEEN(SYSDATE,'06-APR-25')
+-----------------------------------
+                                 12
+
+SQL> Select MONTHS_BETWEEN(sysdate,'06-apr-20') from dual;
+
+MONTHS_BETWEEN(SYSDATE,'06-APR-20')
+-----------------------------------
+                                 72
+
+SQL> Select NEXT_DAY(SYSDATE,'MONDAY') from dual;
+
+NEXT_DAY(
+---------
+13-APR-26
+
+SQL> Select NEXT_DAY(SYSDATE,'friday') from dual;
+
+NEXT_DAY(
+---------
+10-APR-26
+
+SQL> Select LAST_DAY(SYSDATE) from dual;
+
+LAST_DAY(
+---------
+30-APR-26
+
+SQL> select sysdate from dual;
+
+SYSDATE
+---------
+06-APR-26
+
+SQL> SELECT TO_CHAR(SYSDATE, 'YYYY-MM-DD') FROM dual;
+
+TO_CHAR(SY
+----------
+2026-04-06
+
+SQL> SELECT TO_CHAR(SYSDATE, 'DD-MM-YYYY') FROM dual;
+
+TO_CHAR(SY
+----------
+06-04-2026
+
+SQL> SELECT TO_CHAR(SYSDATE, 'DD-MM') FROM dual;
+
+TO_CH
+-----
+06-04
+
+SQL> SELECT TO_CHAR(SYSDATE, 'DD) FROM dual;
+ERROR:
+ORA-01756: quoted string not properly terminated
+
+
+SQL> SELECT TO_CHAR(SYSDATE, 'DD') FROM dual;
+
+TO
+--
+06
+
+SQL> SELECT TO_CHAR(SYSDATE, 'MM') FROM dual;
+
+TO
+--
+04
+
+SQL> SELECT TO_CHAR(SYSDATE, 'YYYY') FROM dual;
+
+TO_C
+----
+2026
+
+SQL> SELECT TO_CHAR(SYSDATE, 'Day: MONTH, DD, YYYY') FROM dual;
+
+TO_CHAR(SYSDATE,'DAY:MONTH,DD,YYYY')
+--------------------------------------------------------------------------------
+Monday   : APRIL    , 06, 2026
+
+SQL> SELECT TO_CHAR(SYSDATE, 'MONTH') FROM dual;
+
+TO_CHAR(SYSDATE,'MONTH')
+------------------------------------
+APRIL
+
+SQL> SELECT TO_CHAR(SYSDATE, 'DAY') FROM dual;
+
+TO_CHAR(SYSDATE,'DAY')
+------------------------------------
+MONDAY
+
+SQL> select TO_CHAR(SYSDATE, 'Day: MONTH DD, YYYY', 'NLS_DATE_LANGUAGE = English') from dual;
+
+TO_CHAR(SYSDATE,'DAY:MONTHDD,YYYY','NLS_DATE_LANGUAGE=ENGLISH')
+--------------------------------------------------------------------------------
+Monday   : APRIL     06, 2026
+
+SQL> select TO_CHAR(SYSDATE, 'Day: MONTH DD, YYYY', 'NLS_DATE_LANGUAGE = HINDI') from dual;
+
+TO_CHAR(SYSDATE,'DAY:MONTHDD,YYYY','NLS_DATE_LANGUAGE=HINDI')
+-----------------------------------------------------------------------
+┐┐┐┐┐┐  : ┐┐┐┐┐┐  06, 2026
+
+SQL> Select TO_CHAR(SYSDATE,’DD-MONTH-YYYY’) from dual;
+
+TO_CHAR(SYSDATE,'DD-MONTH-YYYY')
+--------------------------------------------
+06-APRIL    -2026
+
+SQL> Select TO_CHAR(SYSDATE,'DDD') from dual;
+
+TO_
+---
+096
+
+SQL> Select TO_CHAR(SYSDATE,’DD-MM-YY HH:MI:SS’) from dual;
+
+TO_CHAR(SYSDATE,'
+-----------------
+06-04-26 12:23:30
+
+SQL> select systimestamp from dual;
+
+SYSTIMESTAMP
+---------------------------------------------------------------------------
+06-APR-26 12.23.55.885000 PM +05:30
+
+SQL> SELECT TO_NUMBER('97.13') + 25.5 FROM dual;
+
+TO_NUMBER('97.13')+25.5
+-----------------------
+                 122.63
+
+SQL> SELECT '97.13' + 25.5 FROM dual;
+
+'97.13'+25.5
+------------
+      122.63
+
+SQL> SELECT TO_NUMBER('97.13') + 25.5 FROM dual;
+
+TO_NUMBER('97.13')+25.5
+-----------------------
+                 122.63
+
+SQL> select * from tab;
+
+TNAME                          TABTYPE  CLUSTERID
+------------------------------ ------- ----------
+CUSTOMERS                      TABLE
+FACEBOOK                       TABLE
+FB1                            TABLE
+FB2                            TABLE
+FB3                            TABLE
+S1                             TABLE
+S2                             TABLE
+S3                             TABLE
+TAB1                           TABLE
+TAB2                           TABLE
+
+10 rows selected.
+
+SQL> select * from customers;
+
+        ID NAME                        AGE ADDRESS                  SALARY
+---------- -------------------- ---------- -------------------- ----------
+         1 Ramesh                       32 Ahmedabad                  2000
+         2 Khailan                      25 Delhi                      1500
+         3 kaushik                      23 Kota                       2000
+         4 Chaitali                     55 Mumbai                     6500
+         5 Hardik                       27 MP                         4500
+         6 Komal                        22 Bhopal                     8500
+         7 Muffy                        24 Indore                    10000
+         8
+
+8 rows selected.
+
+SQL> select * from customers where age>=25;
+
+        ID NAME                        AGE ADDRESS                  SALARY
+---------- -------------------- ---------- -------------------- ----------
+         1 Ramesh                       32 Ahmedabad                  2000
+         2 Khailan                      25 Delhi                      1500
+         4 Chaitali                     55 Mumbai                     6500
+         5 Hardik                       27 MP                         4500
+
+SQL> create table cust1 as select * from customers where age>=25;
+
+Table created.
+
+SQL> select * from cus1;
+select * from cus1
+              *
+ERROR at line 1:
+ORA-00942: table or view does not exist
+
+
+SQL> select * from cust1;
+
+        ID NAME                        AGE ADDRESS                  SALARY
+---------- -------------------- ---------- -------------------- ----------
+         1 Ramesh                       32 Ahmedabad                  2000
+         2 Khailan                      25 Delhi                      1500
+         4 Chaitali                     55 Mumbai                     6500
+         5 Hardik                       27 MP                         4500
+
+SQL> update table customers set name='Kiran' where id=2;
+update table customers set name='Kiran' where id=2
+       *
+ERROR at line 1:
+ORA-00903: invalid table name
+
+
+SQL> update customers set name='Kiran' where id=2;
+
+1 row updated.
+
+SQL> select * from customers;
+
+        ID NAME                        AGE ADDRESS                  SALARY
+---------- -------------------- ---------- -------------------- ----------
+         1 Ramesh                       32 Ahmedabad                  2000
+         2 Kiran                        25 Delhi                      1500
+         3 kaushik                      23 Kota                       2000
+         4 Chaitali                     55 Mumbai                     6500
+         5 Hardik                       27 MP                         4500
+         6 Komal                        22 Bhopal                     8500
+         7 Muffy                        24 Indore                    10000
+         8
+
+8 rows selected.
+
+SQL> select * from cust1;
+
+        ID NAME                        AGE ADDRESS                  SALARY
+---------- -------------------- ---------- -------------------- ----------
+         1 Ramesh                       32 Ahmedabad                  2000
+         2 Khailan                      25 Delhi                      1500
+         4 Chaitali                     55 Mumbai                     6500
+         5 Hardik                       27 MP                         4500
+
+SQL> create view custv1 as select * from customers where age>=25;
+
+View created.
+
+SQL> select * from tab;
+
+TNAME                          TABTYPE  CLUSTERID
+------------------------------ ------- ----------
+CUST1                          TABLE
+CUSTOMERS                      TABLE
+CUSTV1                         VIEW
+FACEBOOK                       TABLE
+FB1                            TABLE
+FB2                            TABLE
+FB3                            TABLE
+S1                             TABLE
+S2                             TABLE
+S3                             TABLE
+TAB1                           TABLE
+
+TNAME                          TABTYPE  CLUSTERID
+------------------------------ ------- ----------
+TAB2                           TABLE
+
+12 rows selected.
+
+SQL> select * from custv1;
+
+        ID NAME                        AGE ADDRESS                  SALARY
+---------- -------------------- ---------- -------------------- ----------
+         1 Ramesh                       32 Ahmedabad                  2000
+         2 Kiran                        25 Delhi                      1500
+         4 Chaitali                     55 Mumbai                     6500
+         5 Hardik                       27 MP                         4500
+
+SQL> update customers set age=35 where id=2;
+
+1 row updated.
+
+SQL> select * from customers;
+
+        ID NAME                        AGE ADDRESS                  SALARY
+---------- -------------------- ---------- -------------------- ----------
+         1 Ramesh                       32 Ahmedabad                  2000
+         2 Kiran                        35 Delhi                      1500
+         3 kaushik                      23 Kota                       2000
+         4 Chaitali                     55 Mumbai                     6500
+         5 Hardik                       27 MP                         4500
+         6 Komal                        22 Bhopal                     8500
+         7 Muffy                        24 Indore                    10000
+         8
+
+8 rows selected.
+
+SQL> select * from custv1;
+
+        ID NAME                        AGE ADDRESS                  SALARY
+---------- -------------------- ---------- -------------------- ----------
+         1 Ramesh                       32 Ahmedabad                  2000
+         2 Kiran                        35 Delhi                      1500
+         4 Chaitali                     55 Mumbai                     6500
+         5 Hardik                       27 MP                         4500
+
+SQL> insert into custv1(age) values(100);
+
+1 row created.
+
+SQL> select * from custv1;
+
+        ID NAME                        AGE ADDRESS                  SALARY
+---------- -------------------- ---------- -------------------- ----------
+         1 Ramesh                       32 Ahmedabad                  2000
+         2 Kiran                        35 Delhi                      1500
+         4 Chaitali                     55 Mumbai                     6500
+         5 Hardik                       27 MP                         4500
+                                       100
+
+SQL> select * from customers;
+
+        ID NAME                        AGE ADDRESS                  SALARY
+---------- -------------------- ---------- -------------------- ----------
+         1 Ramesh                       32 Ahmedabad                  2000
+         2 Kiran                        35 Delhi                      1500
+         3 kaushik                      23 Kota                       2000
+         4 Chaitali                     55 Mumbai                     6500
+         5 Hardik                       27 MP                         4500
+         6 Komal                        22 Bhopal                     8500
+         7 Muffy                        24 Indore                    10000
+         8
+                                       100
+
+9 rows selected.
+
+SQL> update custv1 set name='Krishna',id=9 where age=100;
+
+1 row updated.
+
+SQL> select * from custv1;
+
+        ID NAME                        AGE ADDRESS                  SALARY
+---------- -------------------- ---------- -------------------- ----------
+         1 Ramesh                       32 Ahmedabad                  2000
+         2 Kiran                        35 Delhi                      1500
+         4 Chaitali                     55 Mumbai                     6500
+         5 Hardik                       27 MP                         4500
+         9 Krishna                     100
+
+SQL> select * from customers;
+
+        ID NAME                        AGE ADDRESS                  SALARY
+---------- -------------------- ---------- -------------------- ----------
+         1 Ramesh                       32 Ahmedabad                  2000
+         2 Kiran                        35 Delhi                      1500
+         3 kaushik                      23 Kota                       2000
+         4 Chaitali                     55 Mumbai                     6500
+         5 Hardik                       27 MP                         4500
+         6 Komal                        22 Bhopal                     8500
+         7 Muffy                        24 Indore                    10000
+         8
+         9 Krishna                     100
+
+9 rows selected.
+
+SQL> desc cutomers;
+ERROR:
+ORA-04043: object cutomers does not exist
+
+
+SQL> desc customers;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ ID                                                 NUMBER(3)
+ NAME                                               VARCHAR2(20)
+ AGE                                                NUMBER(3)
+ ADDRESS                                            VARCHAR2(20)
+ SALARY                                             NUMBER(6)
+
+SQL> desc custv1;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ ID                                                 NUMBER(3)
+ NAME                                               VARCHAR2(20)
+ AGE                                                NUMBER(3)
+ ADDRESS                                            VARCHAR2(20)
+ SALARY                                             NUMBER(6)
+
+SQL> select * from tab;
+
+TNAME                          TABTYPE  CLUSTERID
+------------------------------ ------- ----------
+CUST1                          TABLE
+CUSTOMERS                      TABLE
+CUSTV1                         VIEW
+FACEBOOK                       TABLE
+FB1                            TABLE
+FB2                            TABLE
+FB3                            TABLE
+S1                             TABLE
+S2                             TABLE
+S3                             TABLE
+TAB1                           TABLE
+
+TNAME                          TABTYPE  CLUSTERID
+------------------------------ ------- ----------
+TAB2                           TABLE
+
+12 rows selected.
+
+SQL> select * from customers;
+
+        ID NAME                        AGE ADDRESS                  SALARY
+---------- -------------------- ---------- -------------------- ----------
+         1 Ramesh                       32 Ahmedabad                  2000
+         2 Kiran                        35 Delhi                      1500
+         3 kaushik                      23 Kota                       2000
+         4 Chaitali                     55 Mumbai                     6500
+         5 Hardik                       27 MP                         4500
+         6 Komal                        22 Bhopal                     8500
+         7 Muffy                        24 Indore                    10000
+         8
+         9 Krishna                     100
+
+9 rows selected.
+
+SQL> select * from facebook;
+
+NAME            SURNAME              DOB       GENDER MOBILENUMBER
+--------------- -------------------- --------- ------ ------------
+Krishna         N                    15-MAR-95 Male     1234567890
+Ramesh          P                    20-DEC-88 Male      111111111
+Lakshmi         K                    11-FEB-99 Female        22222
+
+SQL> create view complex_view as select id,name,age,name,dob,gender from customers,facebook;
+create view complex_view as select id,name,age,name,dob,gender from customers,facebook
+                                               *
+ERROR at line 1:
+ORA-00918: column ambiguously defined
+
+
+SQL> create view complex_view as select id,name,age,dob,gender,mobilenumber from customers,facebook;
+create view complex_view as select id,name,age,dob,gender,mobilenumber from customers,facebook
+                                      *
+ERROR at line 1:
+ORA-00918: column ambiguously defined
+
+
+SQL> create view complex_view as select id,name,age,dob,gender,mobilenumber from customers,facebook;
+create view complex_view as select id,name,age,dob,gender,mobilenumber from customers,facebook
+                                      *
+ERROR at line 1:
+ORA-00918: column ambiguously defined
+
+
+SQL> create view complex_view as select id,age,dob,gender,mobilenumber from customers,facebook;
+
+View created.
+
+SQL> create view complex_view1 as select c.id,c.name,c.age,f.name,f.dob,f.gender,f.mobilenumber from customers c,facebook f;
+create view complex_view1 as select c.id,c.name,c.age,f.name,f.dob,f.gender,f.mobilenumber from customers c,facebook f
+                                                        *
+ERROR at line 1:
+ORA-00957: duplicate column name
+
+
+SQL> create view complex_view1 as select c.id,c.name,c.age,f.dob,f.gender,f.mobilenumber from customers c,facebook f;
+
+View created.
+
+SQL> desc complex_view1;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ ID                                                 NUMBER(3)
+ NAME                                               VARCHAR2(20)
+ AGE                                                NUMBER(3)
+ DOB                                                DATE
+ GENDER                                             VARCHAR2(6)
+ MOBILENUMBER                                       NUMBER(10)
+
+SQL> select * from complex_view1;
+
+        ID NAME                        AGE DOB       GENDER MOBILENUMBER
+---------- -------------------- ---------- --------- ------ ------------
+         1 Ramesh                       32 15-MAR-95 Male     1234567890
+         2 Kiran                        35 15-MAR-95 Male     1234567890
+         3 kaushik                      23 15-MAR-95 Male     1234567890
+         4 Chaitali                     55 15-MAR-95 Male     1234567890
+         5 Hardik                       27 15-MAR-95 Male     1234567890
+         6 Komal                        22 15-MAR-95 Male     1234567890
+         7 Muffy                        24 15-MAR-95 Male     1234567890
+         8                                 15-MAR-95 Male     1234567890
+         9 Krishna                     100 15-MAR-95 Male     1234567890
+         1 Ramesh                       32 20-DEC-88 Male      111111111
+         2 Kiran                        35 20-DEC-88 Male      111111111
+
+        ID NAME                        AGE DOB       GENDER MOBILENUMBER
+---------- -------------------- ---------- --------- ------ ------------
+         3 kaushik                      23 20-DEC-88 Male      111111111
+         4 Chaitali                     55 20-DEC-88 Male      111111111
+         5 Hardik                       27 20-DEC-88 Male      111111111
+         6 Komal                        22 20-DEC-88 Male      111111111
+         7 Muffy                        24 20-DEC-88 Male      111111111
+         8                                 20-DEC-88 Male      111111111
+         9 Krishna                     100 20-DEC-88 Male      111111111
+         1 Ramesh                       32 11-FEB-99 Female        22222
+         2 Kiran                        35 11-FEB-99 Female        22222
+         3 kaushik                      23 11-FEB-99 Female        22222
+         4 Chaitali                     55 11-FEB-99 Female        22222
+
+        ID NAME                        AGE DOB       GENDER MOBILENUMBER
+---------- -------------------- ---------- --------- ------ ------------
+         5 Hardik                       27 11-FEB-99 Female        22222
+         6 Komal                        22 11-FEB-99 Female        22222
+         7 Muffy                        24 11-FEB-99 Female        22222
+         8                                 11-FEB-99 Female        22222
+         9 Krishna                     100 11-FEB-99 Female        22222
+
+27 rows selected.
 
 SQL>
