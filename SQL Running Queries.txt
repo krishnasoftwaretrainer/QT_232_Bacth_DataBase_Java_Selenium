@@ -4102,3 +4102,756 @@ SQL> select * from complex_view1;
 27 rows selected.
 
 SQL>
+===========================
+
+SQL*Plus: Release 11.2.0.2.0 Production on Tue Apr 7 12:04:00 2026
+
+Copyright (c) 1982, 2014, Oracle.  All rights reserved.
+
+SQL> connect qt232;
+Enter password:
+Connected.
+SQL> select * from tab;
+
+TNAME                          TABTYPE  CLUSTERID
+------------------------------ ------- ----------
+COMPLEX_VIEW                   VIEW
+COMPLEX_VIEW1                  VIEW
+CUST1                          TABLE
+CUSTOMERS                      TABLE
+CUSTV1                         VIEW
+FACEBOOK                       TABLE
+FB1                            TABLE
+FB2                            TABLE
+FB3                            TABLE
+S1                             TABLE
+S2                             TABLE
+
+TNAME                          TABTYPE  CLUSTERID
+------------------------------ ------- ----------
+S3                             TABLE
+TAB1                           TABLE
+TAB2                           TABLE
+
+14 rows selected.
+
+SQL> select * from customers;
+
+        ID NAME                        AGE ADDRESS                  SALARY
+---------- -------------------- ---------- -------------------- ----------
+         1 Ramesh                       32 Ahmedabad                  2000
+         2 Kiran                        35 Delhi                      1500
+         3 kaushik                      23 Kota                       2000
+         4 Chaitali                     55 Mumbai                     6500
+         5 Hardik                       27 MP                         4500
+         6 Komal                        22 Bhopal                     8500
+         7 Muffy                        24 Indore                    10000
+         8
+         9 Krishna                     100
+
+9 rows selected.
+
+SQL> select * from customers where salary>=5000;
+
+        ID NAME                        AGE ADDRESS                  SALARY
+---------- -------------------- ---------- -------------------- ----------
+         4 Chaitali                     55 Mumbai                     6500
+         6 Komal                        22 Bhopal                     8500
+         7 Muffy                        24 Indore                    10000
+
+SQL> create view sampleview as select * from customers where salaray>=5000;
+create view sampleview as select * from customers where salaray>=5000
+                                                        *
+ERROR at line 1:
+ORA-00904: "SALARAY": invalid identifier
+
+
+SQL> create view sampleview as select * from customers where salary>=5000;
+
+View created.
+
+SQL> select * from tab;
+
+TNAME                          TABTYPE  CLUSTERID
+------------------------------ ------- ----------
+COMPLEX_VIEW                   VIEW
+COMPLEX_VIEW1                  VIEW
+CUST1                          TABLE
+CUSTOMERS                      TABLE
+CUSTV1                         VIEW
+FACEBOOK                       TABLE
+FB1                            TABLE
+FB2                            TABLE
+FB3                            TABLE
+S1                             TABLE
+S2                             TABLE
+
+TNAME                          TABTYPE  CLUSTERID
+------------------------------ ------- ----------
+S3                             TABLE
+SAMPLEVIEW                     VIEW
+TAB1                           TABLE
+TAB2                           TABLE
+
+15 rows selected.
+
+SQL> desc sampleview;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ ID                                                 NUMBER(3)
+ NAME                                               VARCHAR2(20)
+ AGE                                                NUMBER(3)
+ ADDRESS                                            VARCHAR2(20)
+ SALARY                                             NUMBER(6)
+
+SQL> create view sampleview as select id,name,salary from customers where salary>=5000;
+create view sampleview as select id,name,salary from customers where salary>=5000
+            *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object
+
+
+SQL> select * from sampleview;
+
+        ID NAME                        AGE ADDRESS                  SALARY
+---------- -------------------- ---------- -------------------- ----------
+         4 Chaitali                     55 Mumbai                     6500
+         6 Komal                        22 Bhopal                     8500
+         7 Muffy                        24 Indore                    10000
+
+SQL> select * from s1;
+
+       SID SNAME
+---------- --------------------
+        11 Krishna
+        12 Krishna
+        13
+
+SQL> select * from cust1;
+
+        ID NAME                        AGE ADDRESS                  SALARY
+---------- -------------------- ---------- -------------------- ----------
+         1 Ramesh                       32 Ahmedabad                  2000
+         2 Khailan                      25 Delhi                      1500
+         4 Chaitali                     55 Mumbai                     6500
+         5 Hardik                       27 MP                         4500
+
+SQL> select * from fb1;
+
+NAME            SURNAME              DOB       GENDER MOBILENUMBER
+--------------- -------------------- --------- ------ ------------
+Krishna         N                    15-MAR-95 Male     1234567890
+Ramesh          P                    20-DEC-88 Male      111111111
+Lakshmi         K                    11-FEB-99 Female        22222
+ABCD
+ABCD
+
+SQL> select * from s2;
+
+       SID SNAME
+---------- --------------------
+        11 Krishna
+           dfes
+           dfes
+
+SQL> create view comview as select c.id,c.name,c.age,f.dob,f.gender,f.mobilenumber from customers c,facebook f;
+
+View created.
+
+SQL> desc comview;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ ID                                                 NUMBER(3)
+ NAME                                               VARCHAR2(20)
+ AGE                                                NUMBER(3)
+ DOB                                                DATE
+ GENDER                                             VARCHAR2(6)
+ MOBILENUMBER                                       NUMBER(10)
+
+SQL> select * from comview;
+
+        ID NAME                        AGE DOB       GENDER MOBILENUMBER
+---------- -------------------- ---------- --------- ------ ------------
+         1 Ramesh                       32 15-MAR-95 Male     1234567890
+         2 Kiran                        35 15-MAR-95 Male     1234567890
+         3 kaushik                      23 15-MAR-95 Male     1234567890
+         4 Chaitali                     55 15-MAR-95 Male     1234567890
+         5 Hardik                       27 15-MAR-95 Male     1234567890
+         6 Komal                        22 15-MAR-95 Male     1234567890
+         7 Muffy                        24 15-MAR-95 Male     1234567890
+         8                                 15-MAR-95 Male     1234567890
+         9 Krishna                     100 15-MAR-95 Male     1234567890
+         1 Ramesh                       32 20-DEC-88 Male      111111111
+         2 Kiran                        35 20-DEC-88 Male      111111111
+
+        ID NAME                        AGE DOB       GENDER MOBILENUMBER
+---------- -------------------- ---------- --------- ------ ------------
+         3 kaushik                      23 20-DEC-88 Male      111111111
+         4 Chaitali                     55 20-DEC-88 Male      111111111
+         5 Hardik                       27 20-DEC-88 Male      111111111
+         6 Komal                        22 20-DEC-88 Male      111111111
+         7 Muffy                        24 20-DEC-88 Male      111111111
+         8                                 20-DEC-88 Male      111111111
+         9 Krishna                     100 20-DEC-88 Male      111111111
+         1 Ramesh                       32 11-FEB-99 Female        22222
+         2 Kiran                        35 11-FEB-99 Female        22222
+         3 kaushik                      23 11-FEB-99 Female        22222
+         4 Chaitali                     55 11-FEB-99 Female        22222
+
+        ID NAME                        AGE DOB       GENDER MOBILENUMBER
+---------- -------------------- ---------- --------- ------ ------------
+         5 Hardik                       27 11-FEB-99 Female        22222
+         6 Komal                        22 11-FEB-99 Female        22222
+         7 Muffy                        24 11-FEB-99 Female        22222
+         8                                 11-FEB-99 Female        22222
+         9 Krishna                     100 11-FEB-99 Female        22222
+
+27 rows selected.
+
+SQL> select * from customers;
+
+        ID NAME                        AGE ADDRESS                  SALARY
+---------- -------------------- ---------- -------------------- ----------
+         1 Ramesh                       32 Ahmedabad                  2000
+         2 Kiran                        35 Delhi                      1500
+         3 kaushik                      23 Kota                       2000
+         4 Chaitali                     55 Mumbai                     6500
+         5 Hardik                       27 MP                         4500
+         6 Komal                        22 Bhopal                     8500
+         7 Muffy                        24 Indore                    10000
+         8
+         9 Krishna                     100
+
+9 rows selected.
+
+SQL> select * from facebook;
+
+NAME            SURNAME              DOB       GENDER MOBILENUMBER
+--------------- -------------------- --------- ------ ------------
+Krishna         N                    15-MAR-95 Male     1234567890
+Ramesh          P                    20-DEC-88 Male      111111111
+Lakshmi         K                    11-FEB-99 Female        22222
+
+SQL> select * from sampleview;
+
+        ID NAME                        AGE ADDRESS                  SALARY
+---------- -------------------- ---------- -------------------- ----------
+         4 Chaitali                     55 Mumbai                     6500
+         6 Komal                        22 Bhopal                     8500
+         7 Muffy                        24 Indore                    10000
+
+SQL> select * from customers;
+
+        ID NAME                        AGE ADDRESS                  SALARY
+---------- -------------------- ---------- -------------------- ----------
+         1 Ramesh                       32 Ahmedabad                  2000
+         2 Kiran                        35 Delhi                      1500
+         3 kaushik                      23 Kota                       2000
+         4 Chaitali                     55 Mumbai                     6500
+         5 Hardik                       27 MP                         4500
+         6 Komal                        22 Bhopal                     8500
+         7 Muffy                        24 Indore                    10000
+         8
+         9 Krishna                     100
+
+9 rows selected.
+
+SQL> insert view sampleview values(10,'Mukesh',44,'Hyderabad',7000);
+insert view sampleview values(10,'Mukesh',44,'Hyderabad',7000)
+       *
+ERROR at line 1:
+ORA-00925: missing INTO keyword
+
+
+SQL> insert sampleview values(10,'Mukesh',44,'Hyderabad',7000);
+insert sampleview values(10,'Mukesh',44,'Hyderabad',7000)
+       *
+ERROR at line 1:
+ORA-00925: missing INTO keyword
+
+
+SQL> insert into sampleview values(10,'Mukesh',44,'Hyderabad',7000);
+
+1 row created.
+
+SQL> select * from customers;
+
+        ID NAME                        AGE ADDRESS                  SALARY
+---------- -------------------- ---------- -------------------- ----------
+         1 Ramesh                       32 Ahmedabad                  2000
+         2 Kiran                        35 Delhi                      1500
+         3 kaushik                      23 Kota                       2000
+         4 Chaitali                     55 Mumbai                     6500
+         5 Hardik                       27 MP                         4500
+         6 Komal                        22 Bhopal                     8500
+         7 Muffy                        24 Indore                    10000
+         8
+         9 Krishna                     100
+        10 Mukesh                       44 Hyderabad                  7000
+
+10 rows selected.
+
+SQL> select * from sampleview;
+
+        ID NAME                        AGE ADDRESS                  SALARY
+---------- -------------------- ---------- -------------------- ----------
+         4 Chaitali                     55 Mumbai                     6500
+         6 Komal                        22 Bhopal                     8500
+         7 Muffy                        24 Indore                    10000
+        10 Mukesh                       44 Hyderabad                  7000
+
+SQL> desc comview;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ ID                                                 NUMBER(3)
+ NAME                                               VARCHAR2(20)
+ AGE                                                NUMBER(3)
+ DOB                                                DATE
+ GENDER                                             VARCHAR2(6)
+ MOBILENUMBER                                       NUMBER(10)
+
+SQL> insert into comview values(10,'Mukesh',44,'11/jun/88','M',1234567);
+insert into comview values(10,'Mukesh',44,'11/jun/88','M',1234567)
+*
+ERROR at line 1:
+ORA-01779: cannot modify a column which maps to a non key-preserved table
+
+
+SQL> create view readview as select id,name,salary from customers with read only;
+
+View created.
+
+SQL> select * from tab;
+
+TNAME                          TABTYPE  CLUSTERID
+------------------------------ ------- ----------
+COMPLEX_VIEW                   VIEW
+COMPLEX_VIEW1                  VIEW
+COMVIEW                        VIEW
+CUST1                          TABLE
+CUSTOMERS                      TABLE
+CUSTV1                         VIEW
+FACEBOOK                       TABLE
+FB1                            TABLE
+FB2                            TABLE
+FB3                            TABLE
+READVIEW                       VIEW
+
+TNAME                          TABTYPE  CLUSTERID
+------------------------------ ------- ----------
+S1                             TABLE
+S2                             TABLE
+S3                             TABLE
+SAMPLEVIEW                     VIEW
+TAB1                           TABLE
+TAB2                           TABLE
+
+17 rows selected.
+
+SQL> desc readview;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ ID                                                 NUMBER(3)
+ NAME                                               VARCHAR2(20)
+ SALARY                                             NUMBER(6)
+
+SQL> select * from readview;
+
+        ID NAME                     SALARY
+---------- -------------------- ----------
+         1 Ramesh                     2000
+         2 Kiran                      1500
+         3 kaushik                    2000
+         4 Chaitali                   6500
+         5 Hardik                     4500
+         6 Komal                      8500
+         7 Muffy                     10000
+         8
+         9 Krishna
+        10 Mukesh                     7000
+
+10 rows selected.
+
+SQL> insert readview values(10,'Mukesh',5555);
+insert readview values(10,'Mukesh',5555)
+       *
+ERROR at line 1:
+ORA-00925: missing INTO keyword
+
+
+SQL> insert into readview values(10,'Mukesh',5555);
+insert into readview values(10,'Mukesh',5555)
+*
+ERROR at line 1:
+ORA-42399: cannot perform a DML operation on a read-only view
+
+
+SQL> create view checkview as select id,name,salary from customers where salary>5000 with check option;
+
+View created.
+
+SQL> select * from checkview;
+
+        ID NAME                     SALARY
+---------- -------------------- ----------
+         4 Chaitali                   6500
+         6 Komal                      8500
+         7 Muffy                     10000
+        10 Mukesh                     7000
+
+SQL> insert checkview values(11,'Mukesh',4000);
+insert checkview values(11,'Mukesh',4000)
+       *
+ERROR at line 1:
+ORA-00925: missing INTO keyword
+
+
+SQL> insert into checkview values(11,'Mukesh',4000);
+insert into checkview values(11,'Mukesh',4000)
+            *
+ERROR at line 1:
+ORA-01402: view WITH CHECK OPTION where-clause violation
+
+
+SQL> insert into checkview values(11,'Mukesh',6000);
+
+1 row created.
+
+SQL> select * from checkview;
+
+        ID NAME                     SALARY
+---------- -------------------- ----------
+         4 Chaitali                   6500
+         6 Komal                      8500
+         7 Muffy                     10000
+        10 Mukesh                     7000
+        11 Mukesh                     6000
+
+SQL> create materialized view matview as select id,name,salary from customers;
+
+Materialized view created.
+
+SQL> select * from tab;
+
+TNAME                          TABTYPE  CLUSTERID
+------------------------------ ------- ----------
+CHECKVIEW                      VIEW
+COMPLEX_VIEW                   VIEW
+COMPLEX_VIEW1                  VIEW
+COMVIEW                        VIEW
+CUST1                          TABLE
+CUSTOMERS                      TABLE
+CUSTV1                         VIEW
+FACEBOOK                       TABLE
+FB1                            TABLE
+FB2                            TABLE
+FB3                            TABLE
+
+TNAME                          TABTYPE  CLUSTERID
+------------------------------ ------- ----------
+MATVIEW                        TABLE
+READVIEW                       VIEW
+S1                             TABLE
+S2                             TABLE
+S3                             TABLE
+SAMPLEVIEW                     VIEW
+TAB1                           TABLE
+TAB2                           TABLE
+
+19 rows selected.
+
+SQL> select * from matview;
+
+        ID NAME                     SALARY
+---------- -------------------- ----------
+         1 Ramesh                     2000
+         2 Kiran                      1500
+         3 kaushik                    2000
+         4 Chaitali                   6500
+         5 Hardik                     4500
+         6 Komal                      8500
+         7 Muffy                     10000
+         8
+         9 Krishna
+        10 Mukesh                     7000
+        11 Mukesh                     6000
+
+11 rows selected.
+
+SQL> update table customers set name='Mahesh' where id=8;
+update table customers set name='Mahesh' where id=8
+       *
+ERROR at line 1:
+ORA-00903: invalid table name
+
+
+SQL> update customers set name='Mahesh' where id=8;
+
+1 row updated.
+
+SQL> select * from customers;
+
+        ID NAME                        AGE ADDRESS                  SALARY
+---------- -------------------- ---------- -------------------- ----------
+         1 Ramesh                       32 Ahmedabad                  2000
+         2 Kiran                        35 Delhi                      1500
+         3 kaushik                      23 Kota                       2000
+         4 Chaitali                     55 Mumbai                     6500
+         5 Hardik                       27 MP                         4500
+         6 Komal                        22 Bhopal                     8500
+         7 Muffy                        24 Indore                    10000
+         8 Mahesh
+         9 Krishna                     100
+        10 Mukesh                       44 Hyderabad                  7000
+        11 Mukesh                                                     6000
+
+11 rows selected.
+
+SQL> select * from matview;
+
+        ID NAME                     SALARY
+---------- -------------------- ----------
+         1 Ramesh                     2000
+         2 Kiran                      1500
+         3 kaushik                    2000
+         4 Chaitali                   6500
+         5 Hardik                     4500
+         6 Komal                      8500
+         7 Muffy                     10000
+         8
+         9 Krishna
+        10 Mukesh                     7000
+        11 Mukesh                     6000
+
+11 rows selected.
+
+SQL> EXEC DBMS_MVIEW.REFRESH('matview');
+
+PL/SQL procedure successfully completed.
+
+SQL> select * from matview;
+
+        ID NAME                     SALARY
+---------- -------------------- ----------
+         1 Ramesh                     2000
+         2 Kiran                      1500
+         3 kaushik                    2000
+         4 Chaitali                   6500
+         5 Hardik                     4500
+         6 Komal                      8500
+         7 Muffy                     10000
+         8 Mahesh
+         9 Krishna
+        10 Mukesh                     7000
+        11 Mukesh                     6000
+
+11 rows selected.
+
+SQL> drop view COMPLEX_VIEW1;
+
+View dropped.
+
+SQL> desc COMPLEX_VIEW1;
+ERROR:
+ORA-04043: object COMPLEX_VIEW1 does not exist
+
+
+SQL> select * from customers where age>=25;
+
+        ID NAME                        AGE ADDRESS                  SALARY
+---------- -------------------- ---------- -------------------- ----------
+         1 Ramesh                       32 Ahmedabad                  2000
+         2 Kiran                        35 Delhi                      1500
+         4 Chaitali                     55 Mumbai                     6500
+         5 Hardik                       27 MP                         4500
+         9 Krishna                     100
+        10 Mukesh                       44 Hyderabad                  7000
+
+6 rows selected.
+
+SQL> create index idx1 on customers(age);
+
+Index created.
+
+SQL> create index idx2 on customers(age);
+create index idx2 on customers(age)
+                               *
+ERROR at line 1:
+ORA-01408: such column list already indexed
+
+
+SQL> select index_name, table_name from user_indexes;
+
+INDEX_NAME                     TABLE_NAME
+------------------------------ ------------------------------
+SYS_C007364                    S1
+SYS_C007365                    S2
+IDX1                           CUSTOMERS
+
+SQL> desc s1;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ SID                                       NOT NULL NUMBER(5)
+ SNAME                                              VARCHAR2(20)
+
+SQL> desc s2;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ SID                                                NUMBER(5)
+ SNAME                                              VARCHAR2(20)
+
+SQL> select * from customers;
+
+        ID NAME                        AGE ADDRESS                  SALARY
+---------- -------------------- ---------- -------------------- ----------
+         1 Ramesh                       32 Ahmedabad                  2000
+         2 Kiran                        35 Delhi                      1500
+         3 kaushik                      23 Kota                       2000
+         4 Chaitali                     55 Mumbai                     6500
+         5 Hardik                       27 MP                         4500
+         6 Komal                        22 Bhopal                     8500
+         7 Muffy                        24 Indore                    10000
+         8 Mahesh
+         9 Krishna                     100
+        10 Mukesh                       44 Hyderabad                  7000
+        11 Mukesh                                                     6000
+
+11 rows selected.
+
+SQL> select * from customers where age=24;
+
+        ID NAME                        AGE ADDRESS                  SALARY
+---------- -------------------- ---------- -------------------- ----------
+         7 Muffy                        24 Indore                    10000
+
+SQL> alter index idx1 rename to idx2;
+
+Index altered.
+
+SQL> select index_name, table_name from user_indexes;
+
+INDEX_NAME                     TABLE_NAME
+------------------------------ ------------------------------
+SYS_C007364                    S1
+SYS_C007365                    S2
+IDX2                           CUSTOMERS
+
+SQL> desc idx2;
+ERROR:
+ORA-04043: object idx2 does not exist
+
+
+SQL> create index idx1 on customers(age,address);
+
+Index created.
+
+SQL> select index_name, table_name from user_indexes;
+
+INDEX_NAME                     TABLE_NAME
+------------------------------ ------------------------------
+SYS_C007364                    S1
+SYS_C007365                    S2
+IDX2                           CUSTOMERS
+IDX1                           CUSTOMERS
+
+SQL> create unique index idx3 on customers(id);
+
+Index created.
+
+SQL> select * from custoemrs;
+select * from custoemrs
+              *
+ERROR at line 1:
+ORA-00942: table or view does not exist
+
+
+SQL> select * from customers;
+
+        ID NAME                        AGE ADDRESS                  SALARY
+---------- -------------------- ---------- -------------------- ----------
+         1 Ramesh                       32 Ahmedabad                  2000
+         2 Kiran                        35 Delhi                      1500
+         3 kaushik                      23 Kota                       2000
+         4 Chaitali                     55 Mumbai                     6500
+         5 Hardik                       27 MP                         4500
+         6 Komal                        22 Bhopal                     8500
+         7 Muffy                        24 Indore                    10000
+         8 Mahesh
+         9 Krishna                     100
+        10 Mukesh                       44 Hyderabad                  7000
+        11 Mukesh                                                     6000
+
+11 rows selected.
+
+SQL> insert into customers values(10,'Mukesh',44,'asfdf',12345);
+insert into customers values(10,'Mukesh',44,'asfdf',12345)
+*
+ERROR at line 1:
+ORA-00001: unique constraint (QT232.IDX3) violated
+
+
+SQL> insert into customers values(12,'Mukesh',44,'asfdf',12345);
+
+1 row created.
+
+SQL> insert into customers values(12,'Mukesh',44,'asfdf',12345);
+insert into customers values(12,'Mukesh',44,'asfdf',12345)
+*
+ERROR at line 1:
+ORA-00001: unique constraint (QT232.IDX3) violated
+
+
+SQL> drop index idx3;
+
+Index dropped.
+
+SQL> select * from customers;
+
+        ID NAME                        AGE ADDRESS                  SALARY
+---------- -------------------- ---------- -------------------- ----------
+         1 Ramesh                       32 Ahmedabad                  2000
+         2 Kiran                        35 Delhi                      1500
+         3 kaushik                      23 Kota                       2000
+         4 Chaitali                     55 Mumbai                     6500
+         5 Hardik                       27 MP                         4500
+         6 Komal                        22 Bhopal                     8500
+         7 Muffy                        24 Indore                    10000
+         8 Mahesh
+         9 Krishna                     100
+        10 Mukesh                       44 Hyderabad                  7000
+        11 Mukesh                                                     6000
+
+        ID NAME                        AGE ADDRESS                  SALARY
+---------- -------------------- ---------- -------------------- ----------
+        12 Mukesh                       44 asfdf                     12345
+
+12 rows selected.
+
+SQL> insert into customers values(12,'Mukesh',44,'asfdf',12345);
+
+1 row created.
+
+SQL> select * from customers;
+
+        ID NAME                        AGE ADDRESS                  SALARY
+---------- -------------------- ---------- -------------------- ----------
+         1 Ramesh                       32 Ahmedabad                  2000
+         2 Kiran                        35 Delhi                      1500
+         3 kaushik                      23 Kota                       2000
+         4 Chaitali                     55 Mumbai                     6500
+         5 Hardik                       27 MP                         4500
+         6 Komal                        22 Bhopal                     8500
+         7 Muffy                        24 Indore                    10000
+         8 Mahesh
+         9 Krishna                     100
+        10 Mukesh                       44 Hyderabad                  7000
+        11 Mukesh                                                     6000
+
+        ID NAME                        AGE ADDRESS                  SALARY
+---------- -------------------- ---------- -------------------- ----------
+        12 Mukesh                       44 asfdf                     12345
+        12 Mukesh                       44 asfdf                     12345
+
+13 rows selected.
+
+SQL>
