@@ -4855,3 +4855,847 @@ SQL> select * from customers;
 13 rows selected.
 
 SQL>
+===========================
+
+SQL*Plus: Release 11.2.0.2.0 Production on Wed Apr 8 12:08:17 2026
+
+Copyright (c) 1982, 2014, Oracle.  All rights reserved.
+
+SQL> connect qt232
+Enter password:
+Connected.
+SQL> select * from customers;
+
+        ID NAME                        AGE ADDRESS                  SALARY
+---------- -------------------- ---------- -------------------- ----------
+         1 Ramesh                       32 Ahmedabad                  2000
+         2 Kiran                        35 Delhi                      1500
+         3 kaushik                      23 Kota                       2000
+         4 Chaitali                     55 Mumbai                     6500
+         5 Hardik                       27 MP                         4500
+         6 Komal                        22 Bhopal                     8500
+         7 Muffy                        24 Indore                    10000
+         8 Mahesh
+         9 Krishna                     100
+        10 Mukesh                       44 Hyderabad                  7000
+        11 Mukesh                                                     6000
+
+        ID NAME                        AGE ADDRESS                  SALARY
+---------- -------------------- ---------- -------------------- ----------
+        12 Mukesh                       44 asfdf                     12345
+        12 Mukesh                       44 asfdf                     12345
+
+13 rows selected.
+
+SQL> SELECT * FROM customers WHERE id IN (SELECT ID FROM customers WHERE salary > 5000) ;
+
+        ID NAME                        AGE ADDRESS                  SALARY
+---------- -------------------- ---------- -------------------- ----------
+         4 Chaitali                     55 Mumbai                     6500
+         6 Komal                        22 Bhopal                     8500
+         7 Muffy                        24 Indore                    10000
+        10 Mukesh                       44 Hyderabad                  7000
+        11 Mukesh                                                     6000
+        12 Mukesh                       44 asfdf                     12345
+        12 Mukesh                       44 asfdf                     12345
+
+7 rows selected.
+
+SQL> delete salary where id=12;
+delete salary where id=12
+       *
+ERROR at line 1:
+ORA-00942: table or view does not exist
+
+
+SQL> delete table customers salary where id=12;
+delete table customers salary where id=12
+       *
+ERROR at line 1:
+ORA-00903: invalid table name
+
+
+SQL> delete from customers where id=12;
+
+2 rows deleted.
+
+SQL> select * from customers;
+
+        ID NAME                        AGE ADDRESS                  SALARY
+---------- -------------------- ---------- -------------------- ----------
+         1 Ramesh                       32 Ahmedabad                  2000
+         2 Kiran                        35 Delhi                      1500
+         3 kaushik                      23 Kota                       2000
+         4 Chaitali                     55 Mumbai                     6500
+         5 Hardik                       27 MP                         4500
+         6 Komal                        22 Bhopal                     8500
+         7 Muffy                        24 Indore                    10000
+         8 Mahesh
+         9 Krishna                     100
+        10 Mukesh                       44 Hyderabad                  7000
+        11 Mukesh                                                     6000
+
+11 rows selected.
+
+SQL> update customers set salary=8000 where id=8;
+
+1 row updated.
+
+SQL> update customers set salary=4000 where id=9;
+
+1 row updated.
+
+SQL> select * from customers;
+
+        ID NAME                        AGE ADDRESS                  SALARY
+---------- -------------------- ---------- -------------------- ----------
+         1 Ramesh                       32 Ahmedabad                  2000
+         2 Kiran                        35 Delhi                      1500
+         3 kaushik                      23 Kota                       2000
+         4 Chaitali                     55 Mumbai                     6500
+         5 Hardik                       27 MP                         4500
+         6 Komal                        22 Bhopal                     8500
+         7 Muffy                        24 Indore                    10000
+         8 Mahesh                                                     8000
+         9 Krishna                     100                            4000
+        10 Mukesh                       44 Hyderabad                  7000
+        11 Mukesh                                                     6000
+
+11 rows selected.
+
+SQL> SELECT * FROM customers WHERE id IN (SELECT ID FROM customers WHERE salary > 5000) ;
+
+        ID NAME                        AGE ADDRESS                  SALARY
+---------- -------------------- ---------- -------------------- ----------
+         4 Chaitali                     55 Mumbai                     6500
+         6 Komal                        22 Bhopal                     8500
+         7 Muffy                        24 Indore                    10000
+         8 Mahesh                                                     8000
+        10 Mukesh                       44 Hyderabad                  7000
+        11 Mukesh                                                     6000
+
+6 rows selected.
+
+SQL> SELECT ID FROM customers WHERE salary > 5000 ;
+
+        ID
+----------
+         4
+         6
+         7
+         8
+        10
+        11
+
+6 rows selected.
+
+SQL> SELECT * FROM customers;
+
+        ID NAME                        AGE ADDRESS                  SALARY
+---------- -------------------- ---------- -------------------- ----------
+         1 Ramesh                       32 Ahmedabad                  2000
+         2 Kiran                        35 Delhi                      1500
+         3 kaushik                      23 Kota                       2000
+         4 Chaitali                     55 Mumbai                     6500
+         5 Hardik                       27 MP                         4500
+         6 Komal                        22 Bhopal                     8500
+         7 Muffy                        24 Indore                    10000
+         8 Mahesh                                                     8000
+         9 Krishna                     100                            4000
+        10 Mukesh                       44 Hyderabad                  7000
+        11 Mukesh                                                     6000
+
+11 rows selected.
+
+SQL> SELECT * FROM customers WHERE ID IN (SELECT ID FROM student WHERE salary > 5000) and name IN (SELECT name FROM customers WHERE age < 30);
+SELECT * FROM customers WHERE ID IN (SELECT ID FROM student WHERE salary > 5000) and name IN (SELECT name FROM customers WHERE age < 30)
+                                                    *
+ERROR at line 1:
+ORA-00942: table or view does not exist
+
+
+SQL> SELECT * FROM customers WHERE ID IN (SELECT ID FROM customers WHERE salary > 5000) and name IN (SELECT name FROM customers WHERE age < 30);
+
+        ID NAME                        AGE ADDRESS                  SALARY
+---------- -------------------- ---------- -------------------- ----------
+         6 Komal                        22 Bhopal                     8500
+         7 Muffy                        24 Indore                    10000
+
+SQL> SELECT name FROM customers WHERE age < 30;
+
+NAME
+--------------------
+kaushik
+Hardik
+Komal
+Muffy
+
+SQL> SELECT id,name FROM customers WHERE age < 30;
+
+        ID NAME
+---------- --------------------
+         3 kaushik
+         5 Hardik
+         6 Komal
+         7 Muffy
+
+SQL> SELECT ID FROM customers WHERE salary > 5000;;
+SELECT ID FROM customers WHERE salary > 5000;
+                                            *
+ERROR at line 1:
+ORA-00911: invalid character
+
+
+SQL> SELECT ID FROM customers WHERE salary > 5000;
+
+        ID
+----------
+         4
+         6
+         7
+         8
+        10
+        11
+
+6 rows selected.
+
+SQL> SELECT * FROM customers;
+
+        ID NAME                        AGE ADDRESS                  SALARY
+---------- -------------------- ---------- -------------------- ----------
+         1 Ramesh                       32 Ahmedabad                  2000
+         2 Kiran                        35 Delhi                      1500
+         3 kaushik                      23 Kota                       2000
+         4 Chaitali                     55 Mumbai                     6500
+         5 Hardik                       27 MP                         4500
+         6 Komal                        22 Bhopal                     8500
+         7 Muffy                        24 Indore                    10000
+         8 Mahesh                                                     8000
+         9 Krishna                     100                            4000
+        10 Mukesh                       44 Hyderabad                  7000
+        11 Mukesh                                                     6000
+
+11 rows selected.
+
+SQL> SELECT * FROM customers;
+
+        ID NAME                        AGE ADDRESS                  SALARY
+---------- -------------------- ---------- -------------------- ----------
+         1 Ramesh                       32 Ahmedabad                  2000
+         2 Kiran                        35 Delhi                      1500
+         3 kaushik                      23 Kota                       2000
+         4 Chaitali                     55 Mumbai                     6500
+         5 Hardik                       27 MP                         4500
+         6 Komal                        22 Bhopal                     8500
+         7 Muffy                        24 Indore                    10000
+         8 Mahesh                                                     8000
+         9 Krishna                     100                            4000
+        10 Mukesh                       44 Hyderabad                  7000
+        11 Mukesh                                                     6000
+
+11 rows selected.
+
+SQL> SELECT * FROM facebook;
+
+NAME            SURNAME              DOB       GENDER MOBILENUMBER
+--------------- -------------------- --------- ------ ------------
+Krishna         N                    15-MAR-95 Male     1234567890
+Ramesh          P                    20-DEC-88 Male      111111111
+Lakshmi         K                    11-FEB-99 Female        22222
+
+SQL> SELECT * FROM tab;
+
+TNAME                          TABTYPE  CLUSTERID
+------------------------------ ------- ----------
+CHECKVIEW                      VIEW
+COMPLEX_VIEW                   VIEW
+COMVIEW                        VIEW
+CUST1                          TABLE
+CUSTOMERS                      TABLE
+CUSTV1                         VIEW
+FACEBOOK                       TABLE
+FB1                            TABLE
+FB2                            TABLE
+FB3                            TABLE
+MATVIEW                        TABLE
+
+TNAME                          TABTYPE  CLUSTERID
+------------------------------ ------- ----------
+READVIEW                       VIEW
+S1                             TABLE
+S2                             TABLE
+S3                             TABLE
+SAMPLEVIEW                     VIEW
+TAB1                           TABLE
+TAB2                           TABLE
+
+18 rows selected.
+
+SQL> SELECT * FROM tab1;
+
+       SID SNAME                       FEE
+---------- -------------------- ----------
+         1 Krishna                   10000
+         2 Mahesh                    10000
+         3 Kiran                     10000
+         3 Kiran                      9000
+
+SQL> SELECT * FROM customers;
+
+        ID NAME                        AGE ADDRESS                  SALARY
+---------- -------------------- ---------- -------------------- ----------
+         1 Ramesh                       32 Ahmedabad                  2000
+         2 Kiran                        35 Delhi                      1500
+         3 kaushik                      23 Kota                       2000
+         4 Chaitali                     55 Mumbai                     6500
+         5 Hardik                       27 MP                         4500
+         6 Komal                        22 Bhopal                     8500
+         7 Muffy                        24 Indore                    10000
+         8 Mahesh                                                     8000
+         9 Krishna                     100                            4000
+        10 Mukesh                       44 Hyderabad                  7000
+        11 Mukesh                                                     6000
+
+11 rows selected.
+
+SQL> SELECT CUSTOMERS.ID, CUSTOMERS.NAME, CUSTOMERS.AGE,tab1.sid,tab1.sname,tab1.fee FROM CUSTOMERS,tab1 INNER JOIN tab1 ON CUSTOMERS.ID = tab1.SID;
+SELECT CUSTOMERS.ID, CUSTOMERS.NAME, CUSTOMERS.AGE,tab1.sid,tab1.sname,tab1.fee FROM CUSTOMERS,tab1 INNER JOIN tab1 ON CUSTOMERS.ID = tab1.SID
+                                                                                                                       *
+ERROR at line 1:
+ORA-00904: "CUSTOMERS"."ID": invalid identifier
+
+
+SQL> SELECT CUSTOMERS.ID, CUSTOMERS.NAME, CUSTOMERS.AGE,tab1.sid,tab1.sname,tab1.fee FROM CUSTOMERS,tab1 INNER JOIN tab1 ON CUSTOMERS.ID = tab1.SID;
+SELECT CUSTOMERS.ID, CUSTOMERS.NAME, CUSTOMERS.AGE,tab1.sid,tab1.sname,tab1.fee FROM CUSTOMERS,tab1 INNER JOIN tab1 ON CUSTOMERS.ID = tab1.SID
+                                                                                                                       *
+ERROR at line 1:
+ORA-00904: "CUSTOMERS"."ID": invalid identifier
+
+
+SQL> SELECT CUSTOMERS.ID, CUSTOMERS.NAME, CUSTOMERS.AGE,tab1.sid,tab1.sname,tab1.fee FROM CUSTOMERS INNER JOIN tab1 ON CUSTOMERS.ID = tab1.SID;
+
+        ID NAME                        AGE        SID SNAME
+---------- -------------------- ---------- ---------- --------------------
+       FEE
+----------
+         1 Ramesh                       32          1 Krishna
+     10000
+
+         2 Kiran                        35          2 Mahesh
+     10000
+
+         3 kaushik                      23          3 Kiran
+      9000
+
+
+        ID NAME                        AGE        SID SNAME
+---------- -------------------- ---------- ---------- --------------------
+       FEE
+----------
+         3 kaushik                      23          3 Kiran
+     10000
+
+
+SQL> set pagesize 80;
+SQL> SELECT CUSTOMERS.ID, CUSTOMERS.NAME, CUSTOMERS.AGE,tab1.sid,tab1.sname,tab1.fee FROM CUSTOMERS INNER JOIN tab1 ON CUSTOMERS.ID = tab1.SID;
+
+        ID NAME                        AGE        SID SNAME
+---------- -------------------- ---------- ---------- --------------------
+       FEE
+----------
+         1 Ramesh                       32          1 Krishna
+     10000
+
+         2 Kiran                        35          2 Mahesh
+     10000
+
+         3 kaushik                      23          3 Kiran
+      9000
+
+         3 kaushik                      23          3 Kiran
+     10000
+
+
+SQL> set linesize 200;
+SQL> SELECT CUSTOMERS.ID, CUSTOMERS.NAME, CUSTOMERS.AGE,tab1.sid,tab1.sname,tab1.fee FROM CUSTOMERS INNER JOIN tab1 ON CUSTOMERS.ID = tab1.SID;
+
+        ID NAME                        AGE        SID SNAME                       FEE
+---------- -------------------- ---------- ---------- -------------------- ----------
+         1 Ramesh                       32          1 Krishna                   10000
+         2 Kiran                        35          2 Mahesh                    10000
+         3 kaushik                      23          3 Kiran                      9000
+         3 kaushik                      23          3 Kiran                     10000
+
+SQL> SELECT CUSTOMERS.ID, CUSTOMERS.NAME, CUSTOMERS.AGE,tab1.sid,tab1.sname,tab1.fee FROM CUSTOMERS INNER JOIN tab1 ON CUSTOMERS.ID != tab1.SID;
+
+        ID NAME                        AGE        SID SNAME                       FEE
+---------- -------------------- ---------- ---------- -------------------- ----------
+         2 Kiran                        35          1 Krishna                   10000
+         3 kaushik                      23          1 Krishna                   10000
+         4 Chaitali                     55          1 Krishna                   10000
+         5 Hardik                       27          1 Krishna                   10000
+         6 Komal                        22          1 Krishna                   10000
+         7 Muffy                        24          1 Krishna                   10000
+         8 Mahesh                                   1 Krishna                   10000
+         9 Krishna                     100          1 Krishna                   10000
+        10 Mukesh                       44          1 Krishna                   10000
+        11 Mukesh                                   1 Krishna                   10000
+         1 Ramesh                       32          2 Mahesh                    10000
+         3 kaushik                      23          2 Mahesh                    10000
+         4 Chaitali                     55          2 Mahesh                    10000
+         5 Hardik                       27          2 Mahesh                    10000
+         6 Komal                        22          2 Mahesh                    10000
+         7 Muffy                        24          2 Mahesh                    10000
+         8 Mahesh                                   2 Mahesh                    10000
+         9 Krishna                     100          2 Mahesh                    10000
+        10 Mukesh                       44          2 Mahesh                    10000
+        11 Mukesh                                   2 Mahesh                    10000
+         1 Ramesh                       32          3 Kiran                     10000
+         2 Kiran                        35          3 Kiran                     10000
+         4 Chaitali                     55          3 Kiran                     10000
+         5 Hardik                       27          3 Kiran                     10000
+         6 Komal                        22          3 Kiran                     10000
+         7 Muffy                        24          3 Kiran                     10000
+         8 Mahesh                                   3 Kiran                     10000
+         9 Krishna                     100          3 Kiran                     10000
+        10 Mukesh                       44          3 Kiran                     10000
+        11 Mukesh                                   3 Kiran                     10000
+         1 Ramesh                       32          3 Kiran                      9000
+         2 Kiran                        35          3 Kiran                      9000
+         4 Chaitali                     55          3 Kiran                      9000
+         5 Hardik                       27          3 Kiran                      9000
+         6 Komal                        22          3 Kiran                      9000
+         7 Muffy                        24          3 Kiran                      9000
+         8 Mahesh                                   3 Kiran                      9000
+         9 Krishna                     100          3 Kiran                      9000
+        10 Mukesh                       44          3 Kiran                      9000
+        11 Mukesh                                   3 Kiran                      9000
+
+40 rows selected.
+
+SQL> SELECT CUSTOMERS.ID, CUSTOMERS.NAME, CUSTOMERS.AGE,tab1.sid,tab1.sname,tab1.fee FROM CUSTOMERS LEFTJOIN tab1 ON CUSTOMERS.ID = tab1.SID;
+SELECT CUSTOMERS.ID, CUSTOMERS.NAME, CUSTOMERS.AGE,tab1.sid,tab1.sname,tab1.fee FROM CUSTOMERS LEFTJOIN tab1 ON CUSTOMERS.ID = tab1.SID
+                                                                                                        *
+ERROR at line 1:
+ORA-00933: SQL command not properly ended
+
+
+SQL> SELECT CUSTOMERS.ID, CUSTOMERS.NAME, CUSTOMERS.AGE,tab1.sid,tab1.sname,tab1.fee FROM CUSTOMERS LEF JOIN tab1 ON CUSTOMERS.ID = tab1.SID;
+SELECT CUSTOMERS.ID, CUSTOMERS.NAME, CUSTOMERS.AGE,tab1.sid,tab1.sname,tab1.fee FROM CUSTOMERS LEF JOIN tab1 ON CUSTOMERS.ID = tab1.SID
+                                                                                                                *
+ERROR at line 1:
+ORA-00904: "CUSTOMERS"."ID": invalid identifier
+
+
+SQL> SELECT CUSTOMERS.ID, CUSTOMERS.NAME, CUSTOMERS.AGE,tab1.sid,tab1.sname,tab1.fee FROM CUSTOMERS LEF JOIN ON CUSTOMERS.ID = tab1.SID;
+SELECT CUSTOMERS.ID, CUSTOMERS.NAME, CUSTOMERS.AGE,tab1.sid,tab1.sname,tab1.fee FROM CUSTOMERS LEF JOIN ON CUSTOMERS.ID = tab1.SID
+                                                                                                        *
+ERROR at line 1:
+ORA-00903: invalid table name
+
+
+SQL> SELECT C.ID, C.NAME, C.AGE,T.sid,T.sname,T.fee FROM CUSTOMERS C LEF JOIN TAB1 T ON CUSTOMERS.ID = tab1.SID;
+SELECT C.ID, C.NAME, C.AGE,T.sid,T.sname,T.fee FROM CUSTOMERS C LEF JOIN TAB1 T ON CUSTOMERS.ID = tab1.SID
+                                                                *
+ERROR at line 1:
+ORA-00933: SQL command not properly ended
+
+
+SQL> SELECT CUSTOMERS.ID, CUSTOMERS.NAME, CUSTOMERS.AGE,tab1.sid,tab1.sname,tab1.fee FROM CUSTOMERS LEF JOIN TAB1 ON CUSTOMERS.ID = tab1.SID;
+SELECT CUSTOMERS.ID, CUSTOMERS.NAME, CUSTOMERS.AGE,tab1.sid,tab1.sname,tab1.fee FROM CUSTOMERS LEF JOIN TAB1 ON CUSTOMERS.ID = tab1.SID
+                                                                                                                *
+ERROR at line 1:
+ORA-00904: "CUSTOMERS"."ID": invalid identifier
+
+
+SQL> SELECT C.ID, C.NAME, C.AGE,T.sid,T.sname,T.fee FROM CUSTOMERS C LEFT JOIN TAB1 T ON CUSTOMERS.ID = tab1.SID;
+SELECT C.ID, C.NAME, C.AGE,T.sid,T.sname,T.fee FROM CUSTOMERS C LEFT JOIN TAB1 T ON CUSTOMERS.ID = tab1.SID
+                                                                                                   *
+ERROR at line 1:
+ORA-00904: "TAB1"."SID": invalid identifier
+
+
+SQL> SELECT CUSTOMERS.ID, CUSTOMERS.NAME, CUSTOMERS.AGE,tab1.sid,tab1.sname,tab1.fee FROM CUSTOMERS LEFT JOIN TAB1 ON CUSTOMERS.ID = tab1.SID;
+
+        ID NAME                        AGE        SID SNAME                       FEE
+---------- -------------------- ---------- ---------- -------------------- ----------
+         1 Ramesh                       32          1 Krishna                   10000
+         2 Kiran                        35          2 Mahesh                    10000
+         3 kaushik                      23          3 Kiran                     10000
+         3 kaushik                      23          3 Kiran                      9000
+         5 Hardik                       27
+         8 Mahesh
+        10 Mukesh                       44
+        11 Mukesh
+         6 Komal                        22
+         7 Muffy                        24
+         4 Chaitali                     55
+         9 Krishna                     100
+
+12 rows selected.
+
+SQL> SELECT CUSTOMERS.ID, CUSTOMERS.NAME, CUSTOMERS.AGE,tab1.sid,tab1.sname,tab1.fee FROM TAB1 LEFT JOIN CUSTOMERS ON CUSTOMERS.ID = tab1.SID;
+
+        ID NAME                        AGE        SID SNAME                       FEE
+---------- -------------------- ---------- ---------- -------------------- ----------
+         1 Ramesh                       32          1 Krishna                   10000
+         2 Kiran                        35          2 Mahesh                    10000
+         3 kaushik                      23          3 Kiran                      9000
+         3 kaushik                      23          3 Kiran                     10000
+
+SQL> SELECT CUSTOMERS.ID, CUSTOMERS.NAME, CUSTOMERS.AGE,tab1.sid,tab1.sname,tab1.fee FROM TAB1 RIGHT JOIN CUSTOMERS ON CUSTOMERS.ID = tab1.SID;
+
+        ID NAME                        AGE        SID SNAME                       FEE
+---------- -------------------- ---------- ---------- -------------------- ----------
+         1 Ramesh                       32          1 Krishna                   10000
+         2 Kiran                        35          2 Mahesh                    10000
+         3 kaushik                      23          3 Kiran                     10000
+         3 kaushik                      23          3 Kiran                      9000
+         5 Hardik                       27
+         8 Mahesh
+        10 Mukesh                       44
+        11 Mukesh
+         6 Komal                        22
+         7 Muffy                        24
+         4 Chaitali                     55
+         9 Krishna                     100
+
+12 rows selected.
+
+SQL> SELECT CUSTOMERS.ID, CUSTOMERS.NAME, CUSTOMERS.AGE,tab1.sid,tab1.sname,tab1.fee FROM CUSTOMERS RIGHT JOIN TAB1 ON CUSTOMERS.ID = tab1.SID;
+
+        ID NAME                        AGE        SID SNAME                       FEE
+---------- -------------------- ---------- ---------- -------------------- ----------
+         1 Ramesh                       32          1 Krishna                   10000
+         2 Kiran                        35          2 Mahesh                    10000
+         3 kaushik                      23          3 Kiran                      9000
+         3 kaushik                      23          3 Kiran                     10000
+
+SQL> SELECT CUSTOMERS.ID, CUSTOMERS.NAME, CUSTOMERS.AGE,tab1.sid,tab1.sname,tab1.fee FROM CUSTOMERS RIGHT JOIN TAB1 ON tab1.SID = CUSTOMERS.ID ;
+
+        ID NAME                        AGE        SID SNAME                       FEE
+---------- -------------------- ---------- ---------- -------------------- ----------
+         1 Ramesh                       32          1 Krishna                   10000
+         2 Kiran                        35          2 Mahesh                    10000
+         3 kaushik                      23          3 Kiran                      9000
+         3 kaushik                      23          3 Kiran                     10000
+
+SQL> SELECT CUSTOMERS.ID, CUSTOMERS.NAME, CUSTOMERS.AGE,tab1.sid,tab1.sname,tab1.fee FROM TAB1 RIGHT JOIN CUSTOMERS ON tab1.SID = CUSTOMERS.ID ;
+
+        ID NAME                        AGE        SID SNAME                       FEE
+---------- -------------------- ---------- ---------- -------------------- ----------
+         1 Ramesh                       32          1 Krishna                   10000
+         2 Kiran                        35          2 Mahesh                    10000
+         3 kaushik                      23          3 Kiran                     10000
+         3 kaushik                      23          3 Kiran                      9000
+         5 Hardik                       27
+         8 Mahesh
+        10 Mukesh                       44
+        11 Mukesh
+         6 Komal                        22
+         7 Muffy                        24
+         4 Chaitali                     55
+         9 Krishna                     100
+
+12 rows selected.
+
+SQL> SELECT CUSTOMERS.ID, CUSTOMERS.NAME, CUSTOMERS.AGE,tab1.sid,tab1.sname,tab1.fee FROM TAB1 RIGHT JOIN CUSTOMERS ON CUSTOMERS.ID=TAB1.SID;
+
+        ID NAME                        AGE        SID SNAME                       FEE
+---------- -------------------- ---------- ---------- -------------------- ----------
+         1 Ramesh                       32          1 Krishna                   10000
+         2 Kiran                        35          2 Mahesh                    10000
+         3 kaushik                      23          3 Kiran                     10000
+         3 kaushik                      23          3 Kiran                      9000
+         5 Hardik                       27
+         8 Mahesh
+        10 Mukesh                       44
+        11 Mukesh
+         6 Komal                        22
+         7 Muffy                        24
+         4 Chaitali                     55
+         9 Krishna                     100
+
+12 rows selected.
+
+SQL> SELECT tab1.sid,tab1.sname,tab1.fee,CUSTOMERS.ID,CUSTOMERS.NAME,CUSTOMERS.AGE FROM TAB1 RIGHT JOIN CUSTOMERS ON CUSTOMERS.ID=TAB1.SID;
+
+       SID SNAME                       FEE         ID NAME                        AGE
+---------- -------------------- ---------- ---------- -------------------- ----------
+         1 Krishna                   10000          1 Ramesh                       32
+         2 Mahesh                    10000          2 Kiran                        35
+         3 Kiran                     10000          3 kaushik                      23
+         3 Kiran                      9000          3 kaushik                      23
+                                                    5 Hardik                       27
+                                                    8 Mahesh
+                                                   10 Mukesh                       44
+                                                   11 Mukesh
+                                                    6 Komal                        22
+                                                    7 Muffy                        24
+                                                    4 Chaitali                     55
+                                                    9 Krishna                     100
+
+12 rows selected.
+
+SQL> SELECT tab1.sid,tab1.sname,tab1.fee,CUSTOMERS.ID,CUSTOMERS.NAME,CUSTOMERS.AGE FROM TAB1 RIGHT JOIN CUSTOMERS ON CUSTOMERS.ID!=TAB1.SID;
+
+       SID SNAME                       FEE         ID NAME                        AGE
+---------- -------------------- ---------- ---------- -------------------- ----------
+         2 Mahesh                    10000          1 Ramesh                       32
+         3 Kiran                     10000          1 Ramesh                       32
+         3 Kiran                      9000          1 Ramesh                       32
+         1 Krishna                   10000          2 Kiran                        35
+         3 Kiran                     10000          2 Kiran                        35
+         3 Kiran                      9000          2 Kiran                        35
+         1 Krishna                   10000          3 kaushik                      23
+         2 Mahesh                    10000          3 kaushik                      23
+         1 Krishna                   10000          4 Chaitali                     55
+         2 Mahesh                    10000          4 Chaitali                     55
+         3 Kiran                     10000          4 Chaitali                     55
+         3 Kiran                      9000          4 Chaitali                     55
+         1 Krishna                   10000          5 Hardik                       27
+         2 Mahesh                    10000          5 Hardik                       27
+         3 Kiran                     10000          5 Hardik                       27
+         3 Kiran                      9000          5 Hardik                       27
+         1 Krishna                   10000          6 Komal                        22
+         2 Mahesh                    10000          6 Komal                        22
+         3 Kiran                     10000          6 Komal                        22
+         3 Kiran                      9000          6 Komal                        22
+         1 Krishna                   10000          7 Muffy                        24
+         2 Mahesh                    10000          7 Muffy                        24
+         3 Kiran                     10000          7 Muffy                        24
+         3 Kiran                      9000          7 Muffy                        24
+         1 Krishna                   10000          8 Mahesh
+         2 Mahesh                    10000          8 Mahesh
+         3 Kiran                     10000          8 Mahesh
+         3 Kiran                      9000          8 Mahesh
+         1 Krishna                   10000          9 Krishna                     100
+         2 Mahesh                    10000          9 Krishna                     100
+         3 Kiran                     10000          9 Krishna                     100
+         3 Kiran                      9000          9 Krishna                     100
+         1 Krishna                   10000         10 Mukesh                       44
+         2 Mahesh                    10000         10 Mukesh                       44
+         3 Kiran                     10000         10 Mukesh                       44
+         3 Kiran                      9000         10 Mukesh                       44
+         1 Krishna                   10000         11 Mukesh
+         2 Mahesh                    10000         11 Mukesh
+         3 Kiran                     10000         11 Mukesh
+         3 Kiran                      9000         11 Mukesh
+
+40 rows selected.
+
+SQL> SELECT CUSTOMERS.ID, CUSTOMERS.NAME, CUSTOMERS.AGE,tab1.sid,tab1.sname,tab1.fee FROM TAB1 LEFT JOIN CUSTOMERS ON CUSTOMERS.ID = tab1.SID;
+
+        ID NAME                        AGE        SID SNAME                       FEE
+---------- -------------------- ---------- ---------- -------------------- ----------
+         1 Ramesh                       32          1 Krishna                   10000
+         2 Kiran                        35          2 Mahesh                    10000
+         3 kaushik                      23          3 Kiran                      9000
+         3 kaushik                      23          3 Kiran                     10000
+
+SQL> SELECT C.ID, C.NAME, C.AGE,T.sid,T.sname,T.fee FROM CUSTOMERS C LEFT JOIN TAB1 T ON CUSTOMERS.ID = tab1.SID;
+SELECT C.ID, C.NAME, C.AGE,T.sid,T.sname,T.fee FROM CUSTOMERS C LEFT JOIN TAB1 T ON CUSTOMERS.ID = tab1.SID
+                                                                                                   *
+ERROR at line 1:
+ORA-00904: "TAB1"."SID": invalid identifier
+
+
+SQL> SELECT CUSTOMERS.ID, CUSTOMERS.NAME, CUSTOMERS.AGE,tab1.sid,tab1.sname,tab1.fee FROM CUSTOMERS LEF JOIN TAB1 ON CUSTOMERS.ID = tab1.SID;
+SELECT CUSTOMERS.ID, CUSTOMERS.NAME, CUSTOMERS.AGE,tab1.sid,tab1.sname,tab1.fee FROM CUSTOMERS LEF JOIN TAB1 ON CUSTOMERS.ID = tab1.SID
+                                                                                                                *
+ERROR at line 1:
+ORA-00904: "CUSTOMERS"."ID": invalid identifier
+
+
+SQL> SELECT C.ID, C.NAME, C.AGE,T.sid,T.sname,T.fee FROM CUSTOMERS C LEFT JOIN TAB1 T ON CUSTOMERS.ID = tab1.SID;
+SELECT C.ID, C.NAME, C.AGE,T.sid,T.sname,T.fee FROM CUSTOMERS C LEFT JOIN TAB1 T ON CUSTOMERS.ID = tab1.SID
+                                                                                                   *
+ERROR at line 1:
+ORA-00904: "TAB1"."SID": invalid identifier
+
+
+SQL> SELECT CUSTOMERS.ID, CUSTOMERS.NAME, CUSTOMERS.AGE,tab1.sid,tab1.sname,tab1.fee FROM TAB1 LEFT JOIN CUSTOMERS ON CUSTOMERS.ID = tab1.SID;
+
+        ID NAME                        AGE        SID SNAME                       FEE
+---------- -------------------- ---------- ---------- -------------------- ----------
+         1 Ramesh                       32          1 Krishna                   10000
+         2 Kiran                        35          2 Mahesh                    10000
+         3 kaushik                      23          3 Kiran                      9000
+         3 kaushik                      23          3 Kiran                     10000
+
+SQL>
+SQL> SELECT CUSTOMERS.ID, CUSTOMERS.NAME, CUSTOMERS.AGE,tab1.sid,tab1.sname,tab1.fee FROM CUSTOMERS LEFT JOIN TAB1 ON CUSTOMERS.ID = tab1.SID;
+
+        ID NAME                        AGE        SID SNAME                       FEE
+---------- -------------------- ---------- ---------- -------------------- ----------
+         1 Ramesh                       32          1 Krishna                   10000
+         2 Kiran                        35          2 Mahesh                    10000
+         3 kaushik                      23          3 Kiran                     10000
+         3 kaushik                      23          3 Kiran                      9000
+         5 Hardik                       27
+         8 Mahesh
+        10 Mukesh                       44
+        11 Mukesh
+         6 Komal                        22
+         7 Muffy                        24
+         4 Chaitali                     55
+         9 Krishna                     100
+
+12 rows selected.
+
+SQL> SELECT tab1.sid,tab1.sname,tab1.fee,CUSTOMERS.ID,CUSTOMERS.NAME,CUSTOMERS.AGE FROM TAB1 RIGHT JOIN CUSTOMERS ON CUSTOMERS.ID!=TAB1.SID;
+
+       SID SNAME                       FEE         ID NAME                        AGE
+---------- -------------------- ---------- ---------- -------------------- ----------
+         2 Mahesh                    10000          1 Ramesh                       32
+         3 Kiran                     10000          1 Ramesh                       32
+         3 Kiran                      9000          1 Ramesh                       32
+         1 Krishna                   10000          2 Kiran                        35
+         3 Kiran                     10000          2 Kiran                        35
+         3 Kiran                      9000          2 Kiran                        35
+         1 Krishna                   10000          3 kaushik                      23
+         2 Mahesh                    10000          3 kaushik                      23
+         1 Krishna                   10000          4 Chaitali                     55
+         2 Mahesh                    10000          4 Chaitali                     55
+         3 Kiran                     10000          4 Chaitali                     55
+         3 Kiran                      9000          4 Chaitali                     55
+         1 Krishna                   10000          5 Hardik                       27
+         2 Mahesh                    10000          5 Hardik                       27
+         3 Kiran                     10000          5 Hardik                       27
+         3 Kiran                      9000          5 Hardik                       27
+         1 Krishna                   10000          6 Komal                        22
+         2 Mahesh                    10000          6 Komal                        22
+         3 Kiran                     10000          6 Komal                        22
+         3 Kiran                      9000          6 Komal                        22
+         1 Krishna                   10000          7 Muffy                        24
+         2 Mahesh                    10000          7 Muffy                        24
+         3 Kiran                     10000          7 Muffy                        24
+         3 Kiran                      9000          7 Muffy                        24
+         1 Krishna                   10000          8 Mahesh
+         2 Mahesh                    10000          8 Mahesh
+         3 Kiran                     10000          8 Mahesh
+         3 Kiran                      9000          8 Mahesh
+         1 Krishna                   10000          9 Krishna                     100
+         2 Mahesh                    10000          9 Krishna                     100
+         3 Kiran                     10000          9 Krishna                     100
+         3 Kiran                      9000          9 Krishna                     100
+         1 Krishna                   10000         10 Mukesh                       44
+         2 Mahesh                    10000         10 Mukesh                       44
+         3 Kiran                     10000         10 Mukesh                       44
+         3 Kiran                      9000         10 Mukesh                       44
+         1 Krishna                   10000         11 Mukesh
+         2 Mahesh                    10000         11 Mukesh
+         3 Kiran                     10000         11 Mukesh
+         3 Kiran                      9000         11 Mukesh
+
+40 rows selected.
+
+SQL> SELECT tab1.sid,tab1.sname,tab1.fee,CUSTOMERS.ID,CUSTOMERS.NAME,CUSTOMERS.AGE FROM TAB1 RIGHT JOIN CUSTOMERS ON CUSTOMERS.ID=TAB1.SID;
+
+       SID SNAME                       FEE         ID NAME                        AGE
+---------- -------------------- ---------- ---------- -------------------- ----------
+         1 Krishna                   10000          1 Ramesh                       32
+         2 Mahesh                    10000          2 Kiran                        35
+         3 Kiran                     10000          3 kaushik                      23
+         3 Kiran                      9000          3 kaushik                      23
+                                                    5 Hardik                       27
+                                                    8 Mahesh
+                                                   10 Mukesh                       44
+                                                   11 Mukesh
+                                                    6 Komal                        22
+                                                    7 Muffy                        24
+                                                    4 Chaitali                     55
+                                                    9 Krishna                     100
+
+12 rows selected.
+
+SQL> SELECT CUSTOMERS.ID, CUSTOMERS.NAME, CUSTOMERS.AGE,tab1.sid,tab1.sname,tab1.fee FROM CUSTOMERS LEFT JOIN TAB1 ON CUSTOMERS.ID = tab1.SID;
+
+        ID NAME                        AGE        SID SNAME                       FEE
+---------- -------------------- ---------- ---------- -------------------- ----------
+         1 Ramesh                       32          1 Krishna                   10000
+         2 Kiran                        35          2 Mahesh                    10000
+         3 kaushik                      23          3 Kiran                     10000
+         3 kaushik                      23          3 Kiran                      9000
+         5 Hardik                       27
+         8 Mahesh
+        10 Mukesh                       44
+        11 Mukesh
+         6 Komal                        22
+         7 Muffy                        24
+         4 Chaitali                     55
+         9 Krishna                     100
+
+12 rows selected.
+
+SQL> SELECT CUSTOMERS.ID, CUSTOMERS.NAME, CUSTOMERS.AGE,tab1.sid,tab1.sname,tab1.fee FROM CUSTOMERS JOIN TAB1 ON CUSTOMERS.ID = tab1.SID;
+
+        ID NAME                        AGE        SID SNAME                       FEE
+---------- -------------------- ---------- ---------- -------------------- ----------
+         1 Ramesh                       32          1 Krishna                   10000
+         2 Kiran                        35          2 Mahesh                    10000
+         3 kaushik                      23          3 Kiran                      9000
+         3 kaushik                      23          3 Kiran                     10000
+
+SQL> SELECT tab1.sid,tab1.sname,tab1.fee,CUSTOMERS.ID,CUSTOMERS.NAME,CUSTOMERS.AGE FROM TAB1 JOIN CUSTOMERS ON CUSTOMERS.ID=TAB1.SID;
+
+       SID SNAME                       FEE         ID NAME                        AGE
+---------- -------------------- ---------- ---------- -------------------- ----------
+         1 Krishna                   10000          1 Ramesh                       32
+         2 Mahesh                    10000          2 Kiran                        35
+         3 Kiran                      9000          3 kaushik                      23
+         3 Kiran                     10000          3 kaushik                      23
+
+SQL> SELECT tab1.sid,tab1.sname,tab1.fee,CUSTOMERS.ID,CUSTOMERS.NAME,CUSTOMERS.AGE FROM TAB1 FULL JOIN CUSTOMERS ON CUSTOMERS.ID=TAB1.SID;
+
+       SID SNAME                       FEE         ID NAME                        AGE
+---------- -------------------- ---------- ---------- -------------------- ----------
+         1 Krishna                   10000          1 Ramesh                       32
+         2 Mahesh                    10000          2 Kiran                        35
+         3 Kiran                      9000          3 kaushik                      23
+         3 Kiran                     10000          3 kaushik                      23
+                                                    4 Chaitali                     55
+                                                    5 Hardik                       27
+                                                    6 Komal                        22
+                                                    7 Muffy                        24
+                                                    8 Mahesh
+                                                    9 Krishna                     100
+                                                   10 Mukesh                       44
+                                                   11 Mukesh
+
+12 rows selected.
+
+SQL> SELECT CUSTOMERS.ID, CUSTOMERS.NAME, CUSTOMERS.AGE,tab1.sid,tab1.sname,tab1.fee FROM CUSTOMERS FULLJOIN TAB1 ON CUSTOMERS.ID = tab1.SID;
+SELECT CUSTOMERS.ID, CUSTOMERS.NAME, CUSTOMERS.AGE,tab1.sid,tab1.sname,tab1.fee FROM CUSTOMERS FULLJOIN TAB1 ON CUSTOMERS.ID = tab1.SID
+                                                                                                        *
+ERROR at line 1:
+ORA-00933: SQL command not properly ended
+
+
+SQL> SELECT CUSTOMERS.ID, CUSTOMERS.NAME, CUSTOMERS.AGE,tab1.sid,tab1.sname,tab1.fee FROM CUSTOMERS FULL OIN TAB1 ON CUSTOMERS.ID = tab1.SID;
+SELECT CUSTOMERS.ID, CUSTOMERS.NAME, CUSTOMERS.AGE,tab1.sid,tab1.sname,tab1.fee FROM CUSTOMERS FULL OIN TAB1 ON CUSTOMERS.ID = tab1.SID
+                                                                                                    *
+ERROR at line 1:
+ORA-00933: SQL command not properly ended
+
+
+SQL> SELECT CUSTOMERS.ID, CUSTOMERS.NAME, CUSTOMERS.AGE,tab1.sid,tab1.sname,tab1.fee FROM CUSTOMERS FULL JOIN TAB1 ON CUSTOMERS.ID = tab1.SID;
+
+        ID NAME                        AGE        SID SNAME                       FEE
+---------- -------------------- ---------- ---------- -------------------- ----------
+         1 Ramesh                       32          1 Krishna                   10000
+         2 Kiran                        35          2 Mahesh                    10000
+         3 kaushik                      23          3 Kiran                      9000
+         3 kaushik                      23          3 Kiran                     10000
+         4 Chaitali                     55
+         5 Hardik                       27
+         6 Komal                        22
+         7 Muffy                        24
+         8 Mahesh
+         9 Krishna                     100
+        10 Mukesh                       44
+        11 Mukesh
+
+12 rows selected.
+
+SQL>
