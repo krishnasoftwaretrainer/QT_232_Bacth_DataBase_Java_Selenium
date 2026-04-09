@@ -91,3 +91,45 @@ there is no option for RollBack.
 --------------------
 Delete:Selected records or all with where condition, have the option is RollBack
 
+
+Constraints:
+-----------
+Primary Key:It doesn't allow duplicate values and nul values.
+
+101
+101
+
+AND: 
+T T=T 
+T F=F
+F T=F 
+F F=F 
+OR:
+---
+T T=T 
+T F=T
+F T=T
+F F=F  
+
+Operators:
+----------
+
+Clasues:
+
+Functions:
+--------
+Dual Table:
+
+Views in SQL:
+------------
+
+Index in SQL:
+------------
+
+Sub Queries in SQL:
+-----------------
+Nested Queries:
+----------
+Joins:
+----
+
