@@ -6620,3 +6620,298 @@ SQL> SELECT * FROM SEQ2;
 9 rows selected.
 
 SQL>
+========================================================
+
+SQL*Plus: Release 11.2.0.2.0 Production on Fri Apr 10 12:16:31 2026
+
+Copyright (c) 1982, 2014, Oracle.  All rights reserved.
+
+SQL> connect qt232
+Enter password:
+Connected.
+SQL> select * from orders;
+
+       OID PNAME           PRICE
+---------- ---------- ----------
+         1 LapTop          55000
+        12 TV              75000
+         5 Mobile          11000
+        15 AC              20000
+         9 Cooler           5000
+
+SQL> update orders set laptop=50000;
+update orders set laptop=50000
+                  *
+ERROR at line 1:
+ORA-00904: "LAPTOP": invalid identifier
+
+
+SQL> update orders set price=50000;
+
+5 rows updated.
+
+SQL> select * from orders;
+
+       OID PNAME           PRICE
+---------- ---------- ----------
+         1 LapTop          50000
+        12 TV              50000
+         5 Mobile          50000
+        15 AC              50000
+         9 Cooler          50000
+
+SQL> update orders set laptop=5000;
+update orders set laptop=5000
+                  *
+ERROR at line 1:
+ORA-00904: "LAPTOP": invalid identifier
+
+
+SQL> update orders set price=5000;
+
+5 rows updated.
+
+SQL> select * from orders;
+
+       OID PNAME           PRICE
+---------- ---------- ----------
+         1 LapTop           5000
+        12 TV               5000
+         5 Mobile           5000
+        15 AC               5000
+         9 Cooler           5000
+
+SQL> rollback;
+
+Rollback complete.
+
+SQL> select * from orders;
+
+       OID PNAME           PRICE
+---------- ---------- ----------
+         1 LapTop          55000
+        12 TV              75000
+         5 Mobile          11000
+        15 AC              20000
+         9 Cooler           5000
+
+SQL> update orders set price=50000 where pname=laptop;
+update orders set price=50000 where pname=laptop
+                                          *
+ERROR at line 1:
+ORA-00904: "LAPTOP": invalid identifier
+
+
+SQL> update orders set price=50000 where pname="laptop";
+update orders set price=50000 where pname="laptop"
+                                          *
+ERROR at line 1:
+ORA-00904: "laptop": invalid identifier
+
+
+SQL> update orders set price=50000 where pname="LapTop";
+update orders set price=50000 where pname="LapTop"
+                                          *
+ERROR at line 1:
+ORA-00904: "LapTop": invalid identifier
+
+
+SQL> update orders set price=50000 where pname='LapTop';
+
+1 row updated.
+
+SQL> select * from orders;
+
+       OID PNAME           PRICE
+---------- ---------- ----------
+         1 LapTop          50000
+        12 TV              75000
+         5 Mobile          11000
+        15 AC              20000
+         9 Cooler           5000
+
+SQL> commit;
+
+Commit complete.
+
+SQL> select * from orders;
+
+       OID PNAME           PRICE
+---------- ---------- ----------
+         1 LapTop          50000
+        12 TV              75000
+         5 Mobile          11000
+        15 AC              20000
+         9 Cooler           5000
+
+SQL> select oid as order_id,pname ads product_name,price from orders;
+select oid as order_id,pname ads product_name,price from orders
+                                 *
+ERROR at line 1:
+ORA-00923: FROM keyword not found where expected
+
+
+SQL> select oid as order_id,pname as product_name,price from orders;
+
+  ORDER_ID PRODUCT_NA      PRICE
+---------- ---------- ----------
+         1 LapTop          50000
+        12 TV              75000
+         5 Mobile          11000
+        15 AC              20000
+         9 Cooler           5000
+
+SQL> set pages size 50;
+SP2-0268: pagesize option not a valid number
+SQL> set pagesize 50;
+SQL> set linesize 200;
+SQL> select oid as order_id,pname as product_name,price from orders;
+
+  ORDER_ID PRODUCT_NA      PRICE
+---------- ---------- ----------
+         1 LapTop          50000
+        12 TV              75000
+         5 Mobile          11000
+        15 AC              20000
+         9 Cooler           5000
+
+SQL> select 25+35 from dual;
+
+     25+35
+----------
+        60
+
+SQL> select 25+35 as Addition from dual;
+
+  ADDITION
+----------
+        60
+
+SQL> select * from orders;
+
+       OID PNAME           PRICE
+---------- ---------- ----------
+         1 LapTop          50000
+        12 TV              75000
+         5 Mobile          11000
+        15 AC              20000
+         9 Cooler           5000
+
+SQL> create table orders1 as select pname,price from orders where price>=50000;
+
+Table created.
+
+SQL> select * from orders;
+
+       OID PNAME           PRICE
+---------- ---------- ----------
+         1 LapTop          50000
+        12 TV              75000
+         5 Mobile          11000
+        15 AC              20000
+         9 Cooler           5000
+
+SQL> select * from orders1;
+
+PNAME           PRICE
+---------- ----------
+LapTop          50000
+TV              75000
+
+SQL> CREATE OR REPLACE TRIGGER trg_orders
+  2  BEFORE INSERT ON orders
+  3  FOR EACH ROW
+  4  BEGIN
+  5  DBMS_OUTPUT.PUT_LINE('Insert operation performed successfully');
+  6  END;
+  7  /
+
+Trigger created.
+
+SQL> insert into orders values(2,'Computer,80000);
+ERROR:
+ORA-01756: quoted string not properly terminated
+
+
+SQL> insert into orders values(2,'Computer',80000);
+
+1 row created.
+
+SQL> SET SERVEROUTPUT ON;
+SQL> insert into orders values(2,'Computer',80000);
+Insert operation performed successfully
+
+1 row created.
+
+SQL> drop table orders1;
+
+Table dropped.
+
+SQL> select * from orders1;
+select * from orders1
+              *
+ERROR at line 1:
+ORA-00942: table or view does not exist
+
+
+SQL> flashback table orders1 to before drop;
+flashback table orders1 to before drop
+*
+ERROR at line 1:
+ORA-38305: object not in RECYCLE BIN
+
+
+SQL> connect / as sysdba;
+Connected.
+SQL> flashback table orders1 to before drop;
+flashback table orders1 to before drop
+*
+ERROR at line 1:
+ORA-38305: object not in RECYCLE BIN
+
+
+SQL> select object_name, droptime from dba_recyclebin;
+
+no rows selected
+
+SQL> connect qt232;
+Enter password:
+Connected.
+SQL> select object_name, droptime from dba_recyclebin;
+select object_name, droptime from dba_recyclebin
+                                  *
+ERROR at line 1:
+ORA-00942: table or view does not exist
+
+
+SQL> show recycle bin;
+SQL> Alter session set recycle bin = on;
+Alter session set recycle bin = on
+                  *
+ERROR at line 1:
+ORA-02248: invalid option for ALTER SESSION
+
+
+SQL> Alter system set recycle bin = on;
+Alter system set recycle bin = on
+                 *
+ERROR at line 1:
+ORA-02065: illegal option for ALTER SYSTEM
+
+
+SQL> Alter system set recyclebin = on;
+Alter system set recyclebin = on
+                               *
+ERROR at line 1:
+ORA-02096: specified initialization parameter is not modifiable with this option
+
+
+SQL> purge recyclebin;
+
+Recyclebin purged.
+
+SQL> shoe recyclebin;
+SP2-0734: unknown command beginning "shoe recyc..." - rest of line ignored.
+SQL> show recyclebin;
+SQL>
+

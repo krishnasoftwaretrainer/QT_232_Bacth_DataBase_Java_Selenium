@@ -133,3 +133,13 @@ Nested Queries:
 Joins:
 ----
 
+DDL:Create Alter 
+
+CREATE OR REPLACE TRIGGER trg_orders
+BEFORE INSERT ON orders
+FOR EACH ROW
+BEGIN
+DBMS_OUTPUT.PUT_LINE('Insert operation performed successfully');
+END;
+/
+
